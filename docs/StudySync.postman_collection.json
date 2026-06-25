@@ -1,0 +1,128 @@
+{
+  "info": {
+    "name": "StudySync API",
+    "description": "Core flows for the StudySync backend. Set the collection variable baseUrl (default http://localhost:8080/api/v1). The login/register requests auto-save accessToken + refreshToken for subsequent calls. Full interactive docs: http://localhost:8080/swagger-ui.html",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1" },
+    { "key": "accessToken", "value": "" },
+    { "key": "refreshToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            { "listen": "test", "script": { "exec": [
+              "const b = pm.response.json();",
+              "pm.collectionVariables.set('accessToken', b.accessToken);",
+              "pm.collectionVariables.set('refreshToken', b.refreshToken);"
+            ] } }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/register",
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"ada@studysync.dev\",\n  \"password\": \"password123\",\n  \"displayName\": \"Ada\"\n}" }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            { "listen": "test", "script": { "exec": [
+              "const b = pm.response.json();",
+              "pm.collectionVariables.set('accessToken', b.accessToken);",
+              "pm.collectionVariables.set('refreshToken', b.refreshToken);"
+            ] } }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"ada@studysync.dev\",\n  \"password\": \"password123\"\n}" }
+          }
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/refresh",
+            "body": { "mode": "raw", "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}" }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        { "name": "Me", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/users/me" } },
+        { "name": "Update profile", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/users/me", "body": { "mode": "raw", "raw": "{\n  \"bio\": \"CS undergrad\"\n}" } } }
+      ]
+    },
+    {
+      "name": "Subjects",
+      "item": [
+        { "name": "List", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/subjects" } }
+      ]
+    },
+    {
+      "name": "Notes",
+      "item": [
+        { "name": "List", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/notes?page=0&size=20" } },
+        {
+          "name": "Upload",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/notes",
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "title", "value": "Week 1 notes", "type": "text" },
+              { "key": "subjectId", "value": "PASTE_SUBJECT_ID", "type": "text" },
+              { "key": "file", "type": "file", "src": [] }
+            ] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "item": [
+        { "name": "List", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/groups" } },
+        { "name": "Create", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/groups", "body": { "mode": "raw", "raw": "{\n  \"name\": \"Algorithms crew\",\n  \"subjectId\": \"PASTE_SUBJECT_ID\"\n}" } } }
+      ]
+    },
+    {
+      "name": "Q&A",
+      "item": [
+        { "name": "List questions", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/questions" } },
+        { "name": "Ask", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/questions", "body": { "mode": "raw", "raw": "{\n  \"title\": \"Big-O of mergesort?\",\n  \"body\": \"Why is it O(n log n)?\",\n  \"subjectId\": \"PASTE_SUBJECT_ID\"\n}" } } }
+      ]
+    },
+    {
+      "name": "Rooms",
+      "item": [
+        { "name": "List active", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/rooms" } },
+        { "name": "Open", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/rooms", "body": { "mode": "raw", "raw": "{\n  \"name\": \"Finals grind\",\n  \"subjectId\": \"PASTE_SUBJECT_ID\"\n}" } } }
+      ]
+    },
+    {
+      "name": "Chat",
+      "item": [
+        { "name": "List conversations", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }], "url": "{{baseUrl}}/conversations" } },
+        { "name": "Open direct", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/conversations", "body": { "mode": "raw", "raw": "{\n  \"participantId\": \"PASTE_OTHER_USER_ID\"\n}" } } }
+      ]
+    }
+  ]
+}

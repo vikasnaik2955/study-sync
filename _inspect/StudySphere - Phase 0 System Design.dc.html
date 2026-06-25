@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/styles.css">
+  <script src="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/_ds_bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--surface-page); }
+    ::selection { background: rgba(31,157,87,0.18); }
+    .doc-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+    .doc-scroll::-webkit-scrollbar-thumb { background: var(--neutral-300); border-radius: 999px; border: 2px solid var(--surface-page); }
+    .mb-svg svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    @media print {
+      .doc-sidebar { display: none !important; }
+      .doc-main { margin-left: 0 !important; }
+      .doc-section { break-inside: avoid; box-shadow: none !important; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#1F9D57">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#1F9D57"></rect>
+    <g transform="translate(600 400)" fill="none" stroke="#ffffff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-210 -150 H-30 a60 60 0 0 1 60 60 V210 a45 45 0 0 0 -45 -45 H-210 Z" fill="rgba(255,255,255,0.10)"></path>
+      <path d="M210 -150 H30 a60 60 0 0 0 -60 60 V210 a45 45 0 0 1 45 -45 H210 Z" fill="rgba(255,255,255,0.10)"></path>
+    </g>
+  </svg>
+</template>
+<div ref="{{ rootRef }}" style="font-family: var(--font-sans); color: var(--text-primary); --doc-accent: var(--brand); --doc-accent-soft: var(--brand-soft); --doc-accent-strong: var(--brand-strong); min-height: 100vh; display: flex; align-items: stretch;">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="doc-sidebar doc-scroll" style="position: sticky; top: 0; align-self: flex-start; height: 100vh; width: 286px; flex: 0 0 286px; overflow-y: auto; background: var(--surface-card); border-right: 1px solid var(--border-subtle); padding: 28px 20px 40px;">
+    <div style="display: flex; align-items: center; gap: 11px; padding: 0 8px 22px;">
+      <div style="width: 38px; height: 38px; border-radius: 11px; background: var(--doc-accent); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-brand); flex: 0 0 auto;">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      </div>
+      <div>
+        <div style="font-weight: 800; font-size: 16px; letter-spacing: -0.02em; line-height: 1;">StudySphere</div>
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px;">Phase 0 · System Design</div>
+      </div>
+    </div>
+
+    <nav id="toc" style="display: flex; flex-direction: column; gap: 2px;">
+      <a id="nav-overview" href="#overview" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">0</span>Overview &amp; assumptions</a>
+      <a id="nav-architecture" href="#architecture" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">1</span>High-level architecture</a>
+      <a id="nav-data-model" href="#data-model" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">2</span>Data model &amp; ERD</a>
+      <a id="nav-api" href="#api" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">3</span>REST API contract</a>
+      <a id="nav-realtime" href="#realtime" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">4</span>Real-time design</a>
+      <a id="nav-security" href="#security" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">5</span>Security design</a>
+      <a id="nav-storage" href="#storage" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">6</span>File storage abstraction</a>
+      <a id="nav-structure" href="#structure" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">7</span>Project structure</a>
+      <a id="nav-migrations" href="#migrations" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">8</span>DB migration strategy</a>
+      <a id="nav-config" href="#config" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">9</span>Environment &amp; config</a>
+      <a id="nav-next" href="#next" style="display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:9px;color:var(--text-secondary);font-size:13.5px;font-weight:500;text-decoration:none;"><span style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:12px;width:14px;">→</span>Next steps</a>
+    </nav>
+
+    <div style="margin: 26px 8px 0; padding: 14px 14px; background: var(--surface-sunken); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">Status</div>
+      <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.45;">Design complete — awaiting your <strong style="color: var(--text-primary);">"go"</strong> before Phase 1 scaffolding.</div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="doc-main doc-scroll" style="flex: 1 1 auto; min-width: 0; height: 100vh; overflow-y: auto;">
+    <div style="max-width: 940px; margin: 0 auto; padding: 0 40px 120px;">
+
+      <!-- ===== COVER ===== -->
+      <header style="padding: 64px 0 30px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 44px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--doc-accent-soft); color: var(--doc-accent-strong); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 22px;">
+          <span style="width: 7px; height: 7px; border-radius: 999px; background: var(--doc-accent);"></span> Phase 0 deliverable
+        </div>
+        <h1 style="font-size: 46px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin: 0 0 16px;">Study Group &amp; Notes Sharing Platform</h1>
+        <p style="font-size: 19px; line-height: 1.5; color: var(--text-secondary); margin: 0 0 28px; max-width: 680px;">A complete system design for <strong style="color: var(--text-primary);">StudySphere</strong> — one place for students to share notes, join subject study groups, ask &amp; answer questions, chat in real time, and collaborate in virtual rooms. API-first, so the same backend powers the web app today and an Android app later.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid var(--border-subtle);border-radius:999px;font-size:13px;font-weight:600;color:var(--text-secondary);background:var(--surface-card);">React · MUI · Redux Toolkit</span>
+          <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid var(--border-subtle);border-radius:999px;font-size:13px;font-weight:600;color:var(--text-secondary);background:var(--surface-card);">Spring Boot · Security · JPA · STOMP</span>
+          <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid var(--border-subtle);border-radius:999px;font-size:13px;font-weight:600;color:var(--text-secondary);background:var(--surface-card);">PostgreSQL · Flyway</span>
+          <span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid var(--border-subtle);border-radius:999px;font-size:13px;font-weight:600;color:var(--text-secondary);background:var(--surface-card);">JWT access + refresh</span>
+        </div>
+      </header>
+
+      <!-- ===== 0. OVERVIEW & ASSUMPTIONS ===== -->
+      <section id="overview" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">00</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">Overview &amp; assumptions</h2>
+        <p style="font-size:16px;line-height:1.62;color:var(--text-secondary);margin:0 0 26px;max-width:720px;">Six modules ship in v1: auth/profile, notes, study groups, Q&amp;A forum, real-time chat, and virtual study rooms. Three roles — <strong style="color:var(--text-primary);">Student</strong> (default), <strong style="color:var(--text-primary);">Group Owner</strong> (a student who owns a group), and a minimal <strong style="color:var(--text-primary);">Admin</strong> — governed by role-based access control plus per-resource ownership checks.</p>
+
+        <h3 style="font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px;">Assumptions made</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="padding:16px 18px;background:var(--surface-sunken);border-radius:var(--radius-md);border:1px solid var(--border-subtle);"><div style="font-weight:700;font-size:14px;margin-bottom:5px;">Maven + Gradle → Maven</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.5;">Single build tool chosen and used consistently across all modules.</div></div>
+          <div style="padding:16px 18px;background:var(--surface-sunken);border-radius:var(--radius-md);border:1px solid var(--border-subtle);"><div style="font-weight:700;font-size:14px;margin-bottom:5px;">RTK Query for data</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.5;">Used for REST caching/fetching; plain slices for auth + socket session state.</div></div>
+          <div style="padding:16px 18px;background:var(--surface-sunken);border-radius:var(--radius-md);border:1px solid var(--border-subtle);"><div style="font-weight:700;font-size:14px;margin-bottom:5px;">Refresh tokens are persisted</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.5;">Stored hashed in a <code style="font-family:var(--font-mono);font-size:12px;">refresh_token</code> table to support rotation &amp; revoke-on-logout.</div></div>
+          <div style="padding:16px 18px;background:var(--surface-sunken);border-radius:var(--radius-md);border:1px solid var(--border-subtle);"><div style="font-weight:700;font-size:14px;margin-bottom:5px;">UUID primary keys</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.5;">Client-safe, non-enumerable IDs everywhere; better for a public API surface.</div></div>
+          <div style="padding:16px 18px;background:var(--surface-sunken);border-radius:var(--radius-md);border:1px solid var(--border-subtle);"><div style="font-weight:700;font-size:14px;margin-bottom:5px;">Group chat ↔ study group</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.5;">A group's chat is a <code style="font-family:var(--font-mono);font-size:12px;">Conversation</code> of type GROUP linked to the group; rooms have their own discussion stream.</div></div>
+          <div style="padding:16px 18px;background:var(--surface-sunken);border-radius:var(--radius-md);border:1px solid var(--border-subtle);"><div style="font-weight:700;font-size:14px;margin-bottom:5px;">STOMP over SockJS</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.5;">SockJS fallback enabled for the web client; raw WS works for Android.</div></div>
+        </div>
+        <div style="margin-top:22px;padding:14px 18px;border-left:3px solid var(--doc-accent);background:var(--doc-accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:14px;color:var(--text-secondary);line-height:1.55;"><strong style="color:var(--text-primary);">Out of scope for v1 (designed-for, not built):</strong> audio/video calls, CRDT live co-editing, email/push notifications, and the Android client. Nothing below blocks adding these without re-architecting.</div>
+      </section>
+
+      <!-- ===== 1. ARCHITECTURE ===== -->
+      <section id="architecture" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">01</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">High-level architecture</h2>
+        <p style="font-size:16px;line-height:1.62;color:var(--text-secondary);margin:0 0 24px;max-width:720px;">A React SPA talks to a stateless Spring Boot API over HTTPS (REST) and WSS (STOMP). The API holds <em>all</em> business logic, persists to PostgreSQL, and offloads binary files to a pluggable storage backend. The future Android client speaks to the exact same two protocols — no web-only logic leaks server-side.</p>
+
+        <div style="border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:26px;background:var(--neutral-50);">
+          <div id="diagram-arch" class="mb-svg" style="min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;">Rendering diagram…</div>
+        </div>
+        <details class="no-print" style="margin-top:14px;">
+          <summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--text-link);list-style:none;display:flex;align-items:center;gap:6px;">View / copy Mermaid source</summary>
+          <pre id="src-arch" style="margin:12px 0 0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:18px 20px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;"></pre>
+        </details>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:24px;">
+          <div style="padding:16px 18px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--doc-accent-strong);">Stateless API</div><div style="font-size:13px;color:var(--text-secondary);line-height:1.5;">No server session; JWT carries identity. Horizontally scalable behind a load balancer.</div></div>
+          <div style="padding:16px 18px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--doc-accent-strong);">Layered services</div><div style="font-size:13px;color:var(--text-secondary);line-height:1.5;">controller → service → repository. DTOs at the boundary; entities never escape the service layer.</div></div>
+          <div style="padding:16px 18px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--doc-accent-strong);">Pluggable storage</div><div style="font-size:13px;color:var(--text-secondary);line-height:1.5;">One <code style="font-family:var(--font-mono);font-size:12px;">StorageService</code> interface — local disk in dev, S3/Cloudinary in prod.</div></div>
+        </div>
+      </section>
+
+      <!-- ===== 2. DATA MODEL ===== -->
+      <section id="data-model" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">02</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">Data model &amp; ERD</h2>
+        <p style="font-size:16px;line-height:1.62;color:var(--text-secondary);margin:0 0 24px;max-width:720px;">Fourteen entities. UUID primary keys, <code style="font-family:var(--font-mono);font-size:13px;">created_at</code>/<code style="font-family:var(--font-mono);font-size:13px;">updated_at</code> audit columns on every table, soft-delete (<code style="font-family:var(--font-mono);font-size:13px;">deleted_at</code>) on user-generated content. All foreign keys and search columns are indexed (Section 8).</p>
+
+        <div style="border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:26px;background:var(--neutral-50);">
+          <div id="diagram-erd" class="mb-svg" style="min-height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;">Rendering diagram…</div>
+        </div>
+        <details class="no-print" style="margin-top:14px;">
+          <summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--text-link);list-style:none;display:flex;align-items:center;gap:6px;">View / copy Mermaid source</summary>
+          <pre id="src-erd" style="margin:12px 0 0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:18px 20px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;"></pre>
+        </details>
+
+        <h3 style="font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin:30px 0 14px;">Entity reference</h3>
+        <div style="overflow:auto;border:1px solid var(--border-subtle);border-radius:var(--radius-lg);">
+          <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
+            <thead><tr>
+              <th style="text-align:left;padding:11px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);white-space:nowrap;">Entity</th>
+              <th style="text-align:left;padding:11px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);">Key fields</th>
+              <th style="text-align:left;padding:11px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);">Relationships</th>
+            </tr></thead>
+            <tbody id="entity-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== 3. API CONTRACT ===== -->
+      <section id="api" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">03</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">REST API contract</h2>
+        <p style="font-size:16px;line-height:1.62;color:var(--text-secondary);margin:0 0 24px;max-width:720px;">Everything is versioned under <code style="font-family:var(--font-mono);font-size:13px;">/api/v1</code>. JSON in, JSON out (uploads are <code style="font-family:var(--font-mono);font-size:13px;">multipart/form-data</code>). Two envelopes are used <em>everywhere</em> — a standard error shape and a standard page shape — so every client (web and Android) parses responses identically.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Standard error envelope</div>
+            <pre style="margin:0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;">{
+  "timestamp": "2026-06-25T10:12:03Z",
+  "status": 422,
+  "error": "VALIDATION_ERROR",
+  "message": "File type not allowed.",
+  "path": "/api/v1/notes",
+  "fieldErrors": [
+    { "field": "file", "message": "..." }
+  ],
+  "traceId": "a1b2c3d4"
+}</pre>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Standard page envelope</div>
+            <pre style="margin:0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;">{
+  "content": [ /* items */ ],
+  "page": 0,
+  "size": 20,
+  "totalElements": 137,
+  "totalPages": 7,
+  "first": true,
+  "last": false,
+  "sort": "createdAt,desc"
+}</pre>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:18px;font-size:12.5px;color:var(--text-secondary);">
+          <span style="display:inline-flex;align-items:center;gap:6px;"><code style="font-family:var(--font-mono);font-weight:700;color:var(--info);">GET</code> read</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;"><code style="font-family:var(--font-mono);font-weight:700;color:var(--success);">POST</code> create</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;"><code style="font-family:var(--font-mono);font-weight:700;color:var(--warning);">PATCH</code> update</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;"><code style="font-family:var(--font-mono);font-weight:700;color:var(--error);">DELETE</code> remove</span>
+          <span style="height:14px;width:1px;background:var(--border-strong);"></span>
+          <span style="display:inline-flex;align-items:center;gap:6px;"><span style="padding:1px 7px;border-radius:999px;background:var(--surface-sunken);color:var(--text-muted);font-size:11px;font-weight:700;">PUBLIC</span> no token</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;"><span style="padding:1px 7px;border-radius:999px;background:var(--brand-soft);color:var(--brand-strong);font-size:11px;font-weight:700;">AUTH</span> any student</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;"><span style="padding:1px 7px;border-radius:999px;background:var(--violet-50);color:var(--violet-500);font-size:11px;font-weight:700;">OWNER</span> resource owner</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;"><span style="padding:1px 7px;border-radius:999px;background:var(--warning-soft);color:var(--amber-500);font-size:11px;font-weight:700;">ADMIN</span> admin only</span>
+        </div>
+
+        <div style="overflow:auto;border:1px solid var(--border-subtle);border-radius:var(--radius-lg);">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead><tr>
+              <th style="text-align:left;padding:10px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);white-space:nowrap;">Endpoint</th>
+              <th style="text-align:left;padding:10px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);white-space:nowrap;">Access</th>
+              <th style="text-align:left;padding:10px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);">Purpose</th>
+            </tr></thead>
+            <tbody id="api-rows"></tbody>
+          </table>
+        </div>
+        <p style="font-size:13px;color:var(--text-muted);margin:14px 0 0;line-height:1.5;">List endpoints accept <code style="font-family:var(--font-mono);font-size:12px;">?page=&amp;size=&amp;sort=</code> plus their own filters. Standard codes: <strong>200</strong> ok · <strong>201</strong> created · <strong>204</strong> no content · <strong>400/422</strong> validation · <strong>401</strong> no/expired token · <strong>403</strong> wrong role/owner · <strong>404</strong> missing · <strong>409</strong> conflict · <strong>429</strong> rate-limited.</p>
+      </section>
+
+      <!-- ===== 4. REALTIME ===== -->
+      <section id="realtime" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">04</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">Real-time design</h2>
+        <p style="font-size:16px;line-height:1.62;color:var(--text-secondary);margin:0 0 24px;max-width:720px;">One STOMP endpoint at <code style="font-family:var(--font-mono);font-size:13px;">/ws</code> (SockJS fallback) powers chat, room discussion, and presence. The JWT is validated on the CONNECT frame; the resolved principal is then used to authorize every SUBSCRIBE and SEND, so a user can only join topics they're entitled to.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Subscribe destinations (server → client)</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--doc-accent-strong);font-weight:700;">/user/queue/messages</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Private direct-message delivery to the connected user.</div></div>
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--doc-accent-strong);font-weight:700;">/topic/conversation/{id}</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Messages for a group conversation (members only).</div></div>
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--doc-accent-strong);font-weight:700;">/topic/room/{roomId}</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Study-room discussion + shared-note events.</div></div>
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--doc-accent-strong);font-weight:700;">/topic/presence/{scopeId}</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Online/offline + join/leave for a group or room scope.</div></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">App destinations (client → server)</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-primary);font-weight:700;">/app/chat.send</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Send a direct/group message; server persists then fans out.</div></div>
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-primary);font-weight:700;">/app/room.post</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Post to a room discussion stream.</div></div>
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-primary);font-weight:700;">/app/presence.ping</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Heartbeat; drives presence with disconnect detection.</div></div>
+              <div style="padding:11px 14px;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);"><code style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-primary);font-weight:700;">/app/chat.typing</code><div style="font-size:12.5px;color:var(--text-secondary);margin-top:3px;">Transient typing indicator (not persisted).</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:20px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Event payload (server broadcast)</div>
+            <pre style="margin:0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;">{
+  "type": "MESSAGE_CREATED",
+  "conversationId": "uuid",
+  "message": {
+    "id": "uuid",
+    "senderId": "uuid",
+    "body": "See you in the room",
+    "attachmentUrl": null,
+    "sentAt": "2026-06-25T10:14:00Z"
+  }
+}</pre>
+            <p style="font-size:12.5px;color:var(--text-muted);margin:10px 0 0;line-height:1.5;">Other <code style="font-family:var(--font-mono);font-size:11.5px;">type</code>s: <code style="font-family:var(--font-mono);font-size:11.5px;">PRESENCE_UPDATE</code>, <code style="font-family:var(--font-mono);font-size:11.5px;">PARTICIPANT_JOINED</code>, <code style="font-family:var(--font-mono);font-size:11.5px;">PARTICIPANT_LEFT</code>, <code style="font-family:var(--font-mono);font-size:11.5px;">ROOM_ENDED</code>, <code style="font-family:var(--font-mono);font-size:11.5px;">TYPING</code>.</p>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Handshake auth &amp; flow</div>
+            <ol style="margin:0;padding-left:18px;font-size:13.5px;color:var(--text-secondary);line-height:1.7;">
+              <li>Client connects to <code style="font-family:var(--font-mono);font-size:12px;">/ws</code>, sends JWT in the STOMP <code style="font-family:var(--font-mono);font-size:12px;">Authorization</code> header on CONNECT.</li>
+              <li>A <code style="font-family:var(--font-mono);font-size:12px;">ChannelInterceptor</code> validates the token and binds the <code style="font-family:var(--font-mono);font-size:12px;">Principal</code>.</li>
+              <li>SUBSCRIBE/SEND are authorized against membership (group, conversation, room).</li>
+              <li>History always loads first via REST; the socket only carries live deltas.</li>
+              <li>Presence is heartbeat + session-disconnect events; no message lost on reconnect.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 5. SECURITY ===== -->
+      <section id="security" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">05</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">Security design</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div style="padding:18px 20px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:15px;margin-bottom:7px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--doc-accent);"></span>JWT strategy</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Access token ~15 min, refresh ~7 days. Refresh <strong style="color:var(--text-primary);">rotation</strong>: each use issues a new refresh and revokes the old. Tokens stored hashed; logout revokes the family.</div></div>
+          <div style="padding:18px 20px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:15px;margin-bottom:7px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--doc-accent);"></span>Password hashing</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">BCrypt (strength 12). Plaintext never stored or logged. Password change re-hashes and revokes all refresh tokens.</div></div>
+          <div style="padding:18px 20px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:15px;margin-bottom:7px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--doc-accent);"></span>RBAC + ownership</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Roles <code style="font-family:var(--font-mono);font-size:12px;">STUDENT</code>/<code style="font-family:var(--font-mono);font-size:12px;">ADMIN</code> via <code style="font-family:var(--font-mono);font-size:12px;">@PreAuthorize</code>. Ownership enforced in the service layer — roles are never trusted from the client.</div></div>
+          <div style="padding:18px 20px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:15px;margin-bottom:7px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--doc-accent);"></span>CORS</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Allowlist the web origin(s) only; credentialed requests; methods + headers scoped. Android uses no CORS (native client).</div></div>
+          <div style="padding:18px 20px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:15px;margin-bottom:7px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--doc-accent);"></span>File-upload validation</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">MIME allowlist (PDF/DOCX/PPT/PPTX), max size cap, filename sanitization + random stored key, and a pluggable virus-scan hook before commit.</div></div>
+          <div style="padding:18px 20px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:15px;margin-bottom:7px;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:var(--doc-accent);"></span>Rate limiting</div><div style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;">Bucket4j on auth (login/register/refresh) and upload endpoints; returns <code style="font-family:var(--font-mono);font-size:12px;">429</code> with <code style="font-family:var(--font-mono);font-size:12px;">Retry-After</code>.</div></div>
+        </div>
+        <div style="margin-top:18px;padding:14px 18px;border-left:3px solid var(--doc-accent);background:var(--doc-accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13.5px;color:var(--text-secondary);line-height:1.55;">Download endpoints are authorized per-resource and stream via <code style="font-family:var(--font-mono);font-size:12px;">Resource</code> (no full-file buffering). Cloud files are served through short-lived signed URLs, never public buckets.</div>
+      </section>
+
+      <!-- ===== 6. STORAGE ===== -->
+      <section id="storage" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">06</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">File storage abstraction</h2>
+        <p style="font-size:16px;line-height:1.62;color:var(--text-secondary);margin:0 0 22px;max-width:720px;">A single interface hides where bytes live. Dev uses local disk; prod swaps to S3-compatible or Cloudinary via one config property — no other code changes.</p>
+        <pre style="margin:0 0 16px;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:18px 22px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.62;">public interface StorageService {
+
+    /** Validate + persist a file, returning its stored descriptor. */
+    StoredObject store(MultipartFile file, StorageContext ctx);
+
+    /** Open a stream for download (never buffers the whole file). */
+    Resource loadAsResource(String storageKey);
+
+    /** Generate a (possibly signed, time-limited) access URL. */
+    String url(String storageKey, Duration ttl);
+
+    /** Remove the object; idempotent. */
+    void delete(String storageKey);
+}
+
+record StoredObject(String storageKey, String url, long size,
+                    String contentType, String checksum) {}
+
+// Implementations selected by `storage.provider`:
+//   LocalStorageService   → storage.provider=local   (dev)
+//   S3StorageService      → storage.provider=s3      (prod)
+//   CloudinaryStorage     → storage.provider=cloudinary</pre>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <div style="padding:15px 17px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:13.5px;margin-bottom:5px;">Local (dev)</div><div style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">Writes under <code style="font-family:var(--font-mono);font-size:11.5px;">storage.local.dir</code>; served via an authorized <code style="font-family:var(--font-mono);font-size:11.5px;">/download</code> controller.</div></div>
+          <div style="padding:15px 17px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:13.5px;margin-bottom:5px;">S3 / compatible</div><div style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">Private bucket; pre-signed GET URLs with short TTL. Works with MinIO locally too.</div></div>
+          <div style="padding:15px 17px;border:1px solid var(--border-subtle);border-radius:var(--radius-md);"><div style="font-weight:700;font-size:13.5px;margin-bottom:5px;">Cloudinary</div><div style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">Signed delivery URLs; good if you want managed transforms/CDN later.</div></div>
+        </div>
+      </section>
+
+      <!-- ===== 7. PROJECT STRUCTURE ===== -->
+      <section id="structure" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">07</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 22px;">Project structure</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Backend — Spring Boot (Maven)</div>
+            <pre style="margin:0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12px;line-height:1.55;">backend/
+  pom.xml
+  src/main/java/com/studysphere/
+    StudySphereApplication.java
+    config/        # Cors, Web, OpenAPI, RateLimit
+    security/      # JwtFilter, JwtService,
+                   #   SecurityConfig, WsAuth
+    common/        # ApiError, PageResponse,
+                   #   GlobalExceptionHandler
+    user/          # controller/service/repo
+                   #   entity/dto/mapper
+    subject/
+    note/
+    group/
+    qa/            # question + answer + vote
+    chat/          # conversation + message + ws
+    room/          # study rooms + ws
+    storage/       # StorageService + impls
+  src/main/resources/
+    application.yml
+    db/migration/  # V1__init.sql ...
+  src/test/java/com/studysphere/</pre>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Frontend — React (Vite)</div>
+            <pre style="margin:0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12px;line-height:1.55;">frontend/
+  index.html
+  vite.config.js
+  src/
+    main.jsx
+    App.jsx
+    app/
+      store.js        # Redux Toolkit store
+      apiSlice.js     # RTK Query base
+    routes/           # router + guards
+    features/
+      auth/           # slice + api + pages
+      notes/
+      groups/
+      qa/
+      chat/           # + stomp client hook
+      rooms/
+      profile/
+    components/        # shared MUI wrappers
+    hooks/             # useAuth, useStomp
+    lib/               # axios, jwt, validators
+    theme/             # MUI theme</pre>
+          </div>
+        </div>
+        <p style="font-size:13.5px;color:var(--text-secondary);margin:18px 0 0;line-height:1.6;">Each backend module is a vertical slice — <code style="font-family:var(--font-mono);font-size:12px;">controller</code> → <code style="font-family:var(--font-mono);font-size:12px;">service</code> → <code style="font-family:var(--font-mono);font-size:12px;">repository</code> → <code style="font-family:var(--font-mono);font-size:12px;">entity</code>, with <code style="font-family:var(--font-mono);font-size:12px;">dto</code> + <code style="font-family:var(--font-mono);font-size:12px;">mapper</code> at the edge. The frontend mirrors it feature-by-feature so the two stay legible side by side.</p>
+      </section>
+
+      <!-- ===== 8. MIGRATIONS ===== -->
+      <section id="migrations" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">08</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 18px;">DB migration strategy</h2>
+        <p style="font-size:16px;line-height:1.62;color:var(--text-secondary);margin:0 0 22px;max-width:720px;"><strong style="color:var(--text-primary);">Flyway</strong>, versioned SQL, forward-only. JPA runs in <code style="font-family:var(--font-mono);font-size:13px;">validate</code> mode (never <code style="font-family:var(--font-mono);font-size:13px;">ddl-auto=update</code>) so the schema is owned by migrations, not Hibernate. One migration per logical change; never edit an applied file.</p>
+        <div style="overflow:auto;border:1px solid var(--border-subtle);border-radius:var(--radius-lg);">
+          <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
+            <thead><tr>
+              <th style="text-align:left;padding:11px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);white-space:nowrap;">Migration</th>
+              <th style="text-align:left;padding:11px 16px;background:var(--surface-sunken);color:var(--text-secondary);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);">Contents</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;">V1__init_users.sql</td><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">users, roles, refresh_tokens + indexes</td></tr>
+              <tr><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;">V2__subjects_notes.sql</td><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">subjects, notes (+ subject FK, full-text/title index)</td></tr>
+              <tr><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;">V3__groups.sql</td><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">study_groups, group_memberships, group_notes</td></tr>
+              <tr><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;">V4__qa.sql</td><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">questions, answers, votes (unique user+answer)</td></tr>
+              <tr><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;">V5__chat.sql</td><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">conversations, conversation_participants, messages</td></tr>
+              <tr><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;">V6__rooms.sql</td><td style="padding:10px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">study_rooms, study_room_participants, room_notes</td></tr>
+              <tr><td style="padding:10px 16px;font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;">R__seed_subjects.sql</td><td style="padding:10px 16px;color:var(--text-secondary);">repeatable seed of default subjects (dev/staging)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== 9. CONFIG ===== -->
+      <section id="config" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 40px; margin-bottom: 32px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:800;color:var(--doc-accent);letter-spacing:0.04em;">09</span>
+          <span style="height:1px;flex:1;background:var(--border-subtle);"></span>
+        </div>
+        <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.025em;margin:0 0 22px;">Environment &amp; config</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Backend — application.yml (dev defaults)</div>
+            <pre style="margin:0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6;">spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/studysphere
+    username: ${DB_USER:studysphere}
+    password: ${DB_PASS:studysphere}
+  jpa:
+    hibernate.ddl-auto: validate
+  flyway.enabled: true
+  servlet.multipart.max-file-size: 25MB
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-only-change-me}
+    access-ttl: 15m
+    refresh-ttl: 7d
+  cors.allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
+
+storage:
+  provider: ${STORAGE_PROVIDER:local}
+  local.dir: ${STORAGE_DIR:./var/uploads}
+  s3:
+    bucket: ${S3_BUCKET:}
+    region: ${S3_REGION:}</pre>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Frontend — .env</div>
+            <pre style="margin:0 0 16px;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6;">VITE_API_BASE_URL=http://localhost:8080/api/v1
+VITE_WS_URL=http://localhost:8080/ws</pre>
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Run locally</div>
+            <pre style="margin:0;background:var(--neutral-900);color:#E6E1DA;border-radius:var(--radius-md);padding:16px 18px;overflow:auto;font-family:var(--font-mono),ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6;"># 1. DB
+docker run -e POSTGRES_DB=studysphere \
+  -e POSTGRES_PASSWORD=studysphere \
+  -p 5432:5432 postgres:16
+
+# 2. API (migrates on boot)
+cd backend && ./mvnw spring-boot:run
+
+# 3. Web
+cd frontend && npm i && npm run dev</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== NEXT ===== -->
+      <section id="next" class="doc-section" style="scroll-margin-top: 24px; background: var(--surface-inverse); color: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 40px; margin-bottom: 24px;">
+        <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.025em;margin:0 0 14px;color:#fff;">Design complete — your move</h2>
+        <p style="font-size:16px;line-height:1.6;color:var(--neutral-300);margin:0 0 24px;max-width:680px;">This is the full Phase 0 deliverable: architecture, data model, API contract, real-time, security, storage, structure, migrations, and config. Per your process, I'm stopping here for confirmation.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <span style="padding:9px 16px;border-radius:999px;background:var(--doc-accent);color:#fff;font-weight:700;font-size:14px;">Reply "go" → Phase 1: Scaffold + Auth</span>
+          <span style="padding:9px 16px;border-radius:999px;background:rgba(255,255,255,0.12);color:#fff;font-weight:600;font-size:14px;">Or request changes to any section</span>
+        </div>
+        <p style="font-size:13px;color:var(--neutral-400);margin:22px 0 0;line-height:1.5;">Note: implementation (Phases 1–7) produces runnable Spring Boot + React code — best done in a coding environment. Hand this spec over there; I can keep refining it as questions come up.</p>
+      </section>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:900},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Green&quot;,&quot;Teal&quot;,&quot;Indigo&quot;],&quot;default&quot;:&quot;Green&quot;,&quot;tsType&quot;:&quot;'Green'|'Teal'|'Indigo'&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rootRef = React.createRef();
+  }
+
+  renderVals() {
+    return { rootRef: this.rootRef };
+  }
+
+  accentColor() {
+    const map = {
+      Green: ['#1F9D57', '#ECFBF1', '#178049'],
+      Teal: ['#0E9AA7', '#E8F7F8', '#0A7B86'],
+      Indigo: ['#2F6FED', '#E9F0FE', '#1E54C9'],
+    };
+    return map[this.props.accent] || map.Green;
+  }
+
+  applyAccent() {
+    const el = this.rootRef.current;
+    if (!el) return;
+    const [a, soft, strong] = this.accentColor();
+    el.style.setProperty('--doc-accent', a);
+    el.style.setProperty('--doc-accent-soft', soft);
+    el.style.setProperty('--doc-accent-strong', strong);
+  }
+
+  componentDidUpdate() {
+    this.applyAccent();
+  }
+
+  componentDidMount() {
+    this.applyAccent();
+    this.fillEntities();
+    this.fillApi();
+    this.fillDiagramSources();
+    this.setupNav();
+    this.renderMermaid();
+  }
+
+  fillDiagramSources() {
+    const arch = document.getElementById('src-arch');
+    const erd = document.getElementById('src-erd');
+    if (arch) arch.textContent = this.archSrc();
+    if (erd) erd.textContent = this.erdSrc();
+  }
+
+  archSrc() {
+    return [
+      'flowchart TB',
+      '  subgraph Clients',
+      '    WEB["React SPA<br/>MUI · Redux Toolkit"]',
+      '    AND["Android app<br/>(future)"]',
+      '  end',
+      '  subgraph API["Spring Boot API (stateless)"]',
+      '    REST["REST controllers<br/>/api/v1"]',
+      '    WS["WebSocket / STOMP<br/>/ws"]',
+      '    SVC["Service layer<br/>(business logic)"]',
+      '    SEC["Spring Security<br/>JWT + RBAC"]',
+      '    STORE["StorageService"]',
+      '  end',
+      '  DB[("PostgreSQL")]',
+      '  FS[["Local FS / S3 / Cloudinary"]]',
+      '  WEB -->|HTTPS REST| REST',
+      '  WEB -->|WSS STOMP| WS',
+      '  AND -.->|same API| REST',
+      '  AND -.->|same API| WS',
+      '  REST --> SVC',
+      '  WS --> SVC',
+      '  SEC -.guards.-> REST',
+      '  SEC -.handshake.-> WS',
+      '  SVC --> DB',
+      '  SVC --> STORE',
+      '  STORE --> FS',
+    ].join('\n');
+  }
+
+  erdSrc() {
+    return [
+      'erDiagram',
+      '  USER ||--o{ NOTE : uploads',
+      '  USER ||--o{ STUDY_GROUP : owns',
+      '  USER ||--o{ GROUP_MEMBERSHIP : joins',
+      '  STUDY_GROUP ||--o{ GROUP_MEMBERSHIP : has',
+      '  SUBJECT ||--o{ NOTE : categorizes',
+      '  SUBJECT ||--o{ STUDY_GROUP : categorizes',
+      '  SUBJECT ||--o{ QUESTION : categorizes',
+      '  USER ||--o{ QUESTION : asks',
+      '  QUESTION ||--o{ ANSWER : has',
+      '  USER ||--o{ ANSWER : writes',
+      '  ANSWER ||--o{ VOTE : receives',
+      '  USER ||--o{ VOTE : casts',
+      '  CONVERSATION ||--o{ MESSAGE : contains',
+      '  USER ||--o{ MESSAGE : sends',
+      '  CONVERSATION ||--o{ CONV_PARTICIPANT : has',
+      '  USER ||--o{ CONV_PARTICIPANT : in',
+      '  USER ||--o{ STUDY_ROOM : hosts',
+      '  SUBJECT ||--o{ STUDY_ROOM : categorizes',
+      '  STUDY_ROOM ||--o{ ROOM_PARTICIPANT : has',
+      '  USER ||--o{ ROOM_PARTICIPANT : joins',
+      '  STUDY_ROOM ||--o{ ROOM_NOTE : shares',
+      '  NOTE ||--o{ ROOM_NOTE : shared_in',
+      '  USER {',
+      '    uuid id PK',
+      '    string email UK',
+      '    string password_hash',
+      '    string display_name',
+      '    string avatar_url',
+      '    string bio',
+      '    enum role',
+      '  }',
+      '  SUBJECT {',
+      '    uuid id PK',
+      '    string name UK',
+      '    string code',
+      '  }',
+      '  NOTE {',
+      '    uuid id PK',
+      '    string title',
+      '    uuid subject_id FK',
+      '    uuid uploader_id FK',
+      '    string storage_key',
+      '    string content_type',
+      '    long size_bytes',
+      '    int download_count',
+      '  }',
+      '  STUDY_GROUP {',
+      '    uuid id PK',
+      '    string name',
+      '    uuid subject_id FK',
+      '    uuid owner_id FK',
+      '    uuid conversation_id FK',
+      '  }',
+      '  GROUP_MEMBERSHIP {',
+      '    uuid id PK',
+      '    uuid group_id FK',
+      '    uuid user_id FK',
+      '    enum role',
+      '  }',
+      '  QUESTION {',
+      '    uuid id PK',
+      '    string title',
+      '    text body',
+      '    uuid subject_id FK',
+      '    uuid author_id FK',
+      '    int view_count',
+      '  }',
+      '  ANSWER {',
+      '    uuid id PK',
+      '    uuid question_id FK',
+      '    uuid author_id FK',
+      '    text body',
+      '    int net_votes',
+      '  }',
+      '  VOTE {',
+      '    uuid id PK',
+      '    uuid answer_id FK',
+      '    uuid user_id FK',
+      '    int value',
+      '  }',
+      '  CONVERSATION {',
+      '    uuid id PK',
+      '    enum type',
+      '    uuid group_id FK',
+      '  }',
+      '  CONV_PARTICIPANT {',
+      '    uuid conversation_id FK',
+      '    uuid user_id FK',
+      '  }',
+      '  MESSAGE {',
+      '    uuid id PK',
+      '    uuid conversation_id FK',
+      '    uuid sender_id FK',
+      '    text body',
+      '    string attachment_url',
+      '    datetime sent_at',
+      '  }',
+      '  STUDY_ROOM {',
+      '    uuid id PK',
+      '    string name',
+      '    uuid subject_id FK',
+      '    uuid host_id FK',
+      '    enum status',
+      '  }',
+      '  ROOM_PARTICIPANT {',
+      '    uuid room_id FK',
+      '    uuid user_id FK',
+      '    datetime joined_at',
+      '  }',
+      '  ROOM_NOTE {',
+      '    uuid room_id FK',
+      '    uuid note_id FK',
+      '  }',
+    ].join('\n');
+  }
+
+  entities() {
+    return [
+      ['User', 'id, email (uk), password_hash, display_name, avatar_url, bio, role', 'has many Notes, Groups (owned), Questions, Answers, Votes, Messages'],
+      ['Subject', 'id, name (uk), code', 'groups Notes, Groups, Questions, Rooms'],
+      ['Note', 'id, title, subject_id, uploader_id, storage_key, content_type, size_bytes, download_count', 'belongs to Subject + uploader; shared into Groups & Rooms'],
+      ['StudyGroup', 'id, name, subject_id, owner_id, conversation_id', 'has Memberships; owned by a User; one group Conversation'],
+      ['GroupMembership', 'id, group_id, user_id, role (OWNER/MEMBER)', 'join row between User and StudyGroup'],
+      ['Question', 'id, title, body, subject_id, author_id, view_count', 'has many Answers; by an author; under a Subject'],
+      ['Answer', 'id, question_id, author_id, body, net_votes', 'belongs to Question; has many Votes'],
+      ['Vote', 'id, answer_id, user_id, value (+1/-1)', 'unique per (user, answer)'],
+      ['Conversation', 'id, type (DIRECT/GROUP), group_id?', 'has Participants + Messages'],
+      ['ConversationParticipant', 'conversation_id, user_id', 'membership of a Conversation'],
+      ['Message', 'id, conversation_id, sender_id, body, attachment_url, sent_at', 'belongs to Conversation + sender'],
+      ['StudyRoom', 'id, name, subject_id, host_id, status (ACTIVE/ENDED)', 'has Participants + shared Notes'],
+      ['StudyRoomParticipant', 'room_id, user_id, joined_at, left_at', 'membership of a StudyRoom'],
+      ['RoomNote', 'room_id, note_id', 'links shared Notes into a room'],
+    ];
+  }
+
+  fillEntities() {
+    const tb = document.getElementById('entity-rows');
+    if (!tb) return;
+    tb.innerHTML = this.entities().map(function (r, i, arr) {
+      var last = i === arr.length - 1;
+      var bb = last ? '' : 'border-bottom:1px solid var(--border-subtle);';
+      return '<tr>' +
+        '<td style="padding:10px 16px;' + bb + 'white-space:nowrap;font-weight:700;color:var(--text-primary);">' + r[0] + '</td>' +
+        '<td style="padding:10px 16px;' + bb + 'color:var(--text-secondary);font-family:var(--font-mono);font-size:12px;line-height:1.55;">' + r[1] + '</td>' +
+        '<td style="padding:10px 16px;' + bb + 'color:var(--text-secondary);line-height:1.5;">' + r[2] + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  api() {
+    const M = {
+      GET: 'var(--info)', POST: 'var(--success)', PATCH: 'var(--warning)', DELETE: 'var(--error)',
+    };
+    const badge = {
+      PUBLIC: 'background:var(--surface-sunken);color:var(--text-muted);',
+      AUTH: 'background:var(--brand-soft);color:var(--brand-strong);',
+      OWNER: 'background:var(--violet-50);color:var(--violet-500);',
+      ADMIN: 'background:var(--warning-soft);color:var(--amber-500);',
+    };
+    this._M = M; this._badge = badge;
+    return [
+      ['__', 'Auth & users'],
+      ['POST', '/auth/register', 'PUBLIC', 'Create account, return tokens'],
+      ['POST', '/auth/login', 'PUBLIC', 'Authenticate, return access + refresh'],
+      ['POST', '/auth/refresh', 'PUBLIC', 'Rotate refresh, return new access'],
+      ['POST', '/auth/logout', 'AUTH', 'Revoke refresh token family'],
+      ['GET', '/users/me', 'AUTH', 'Current profile'],
+      ['PATCH', '/users/me', 'AUTH', 'Edit own name / avatar / bio'],
+      ['POST', '/users/me/password', 'AUTH', 'Change password (re-auth)'],
+      ['GET', '/users/{id}', 'AUTH', 'Public profile of a user'],
+      ['__', 'Subjects'],
+      ['GET', '/subjects', 'AUTH', 'List subjects (filters/typeahead)'],
+      ['POST', '/subjects', 'ADMIN', 'Create subject'],
+      ['PATCH', '/subjects/{id}', 'ADMIN', 'Rename / edit subject'],
+      ['DELETE', '/subjects/{id}', 'ADMIN', 'Remove subject'],
+      ['__', 'Notes'],
+      ['GET', '/notes', 'AUTH', 'List · filter subject, search q, paginate'],
+      ['POST', '/notes', 'AUTH', 'Upload (multipart, validated)'],
+      ['GET', '/notes/{id}', 'AUTH', 'Note metadata + uploader'],
+      ['GET', '/notes/{id}/download', 'AUTH', 'Stream file, increment counter'],
+      ['DELETE', '/notes/{id}', 'OWNER', 'Delete (uploader or admin)'],
+      ['__', 'Study groups'],
+      ['GET', '/groups', 'AUTH', 'List / search groups by subject'],
+      ['POST', '/groups', 'AUTH', 'Create group (creator = owner)'],
+      ['GET', '/groups/{id}', 'AUTH', 'Group detail (members only for resources)'],
+      ['POST', '/groups/{id}/join', 'AUTH', 'Join group'],
+      ['DELETE', '/groups/{id}/leave', 'AUTH', 'Leave group'],
+      ['GET', '/groups/{id}/members', 'AUTH', 'List members'],
+      ['DELETE', '/groups/{id}/members/{userId}', 'OWNER', 'Owner removes a member'],
+      ['GET', '/groups/{id}/notes', 'AUTH', 'Group-shared notes (members)'],
+      ['POST', '/groups/{id}/notes/{noteId}', 'AUTH', 'Share a note into group'],
+      ['GET', '/groups/{id}/posts', 'AUTH', 'Group discussion thread'],
+      ['POST', '/groups/{id}/posts', 'AUTH', 'Post to discussion'],
+      ['__', 'Q&A forum'],
+      ['GET', '/questions', 'AUTH', 'List · search, filter subject, paginate'],
+      ['POST', '/questions', 'AUTH', 'Ask a question'],
+      ['GET', '/questions/{id}', 'AUTH', 'Question + answers (increments views)'],
+      ['POST', '/questions/{id}/answers', 'AUTH', 'Post an answer'],
+      ['GET', '/questions/{id}/answers', 'AUTH', 'Answers sorted by net votes'],
+      ['POST', '/answers/{id}/vote', 'AUTH', 'Cast/change vote (±1)'],
+      ['DELETE', '/answers/{id}/vote', 'AUTH', 'Retract vote'],
+      ['__', 'Chat'],
+      ['GET', '/conversations', 'AUTH', "Current user's conversations"],
+      ['POST', '/conversations', 'AUTH', 'Open/get a direct conversation'],
+      ['GET', '/conversations/{id}/messages', 'AUTH', 'Paged history (members only)'],
+      ['POST', '/conversations/{id}/files', 'AUTH', 'Upload a chat attachment'],
+      ['__', 'Study rooms'],
+      ['GET', '/rooms', 'AUTH', 'List active rooms'],
+      ['POST', '/rooms', 'AUTH', 'Open a room (creator = host)'],
+      ['GET', '/rooms/{id}', 'AUTH', 'Room detail + participants'],
+      ['POST', '/rooms/{id}/join', 'AUTH', 'Join while active'],
+      ['DELETE', '/rooms/{id}/leave', 'AUTH', 'Leave room'],
+      ['GET', '/rooms/{id}/notes', 'AUTH', 'Room shared-notes panel'],
+      ['POST', '/rooms/{id}/notes/{noteId}', 'AUTH', 'Share note into room'],
+      ['POST', '/rooms/{id}/end', 'OWNER', 'Host ends the room'],
+    ];
+  }
+
+  fillApi() {
+    const tb = document.getElementById('api-rows');
+    if (!tb) return;
+    const rows = this.api();
+    const M = this._M, badge = this._badge;
+    tb.innerHTML = rows.map(function (r) {
+      if (r[0] === '__') {
+        return '<tr><td colspan="3" style="padding:9px 16px;background:var(--doc-accent-soft);color:var(--doc-accent-strong);font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--border-subtle);">' + r[1] + '</td></tr>';
+      }
+      var method = r[0], path = r[1], access = r[2], purpose = r[3];
+      var mc = M[method] || 'var(--text-primary)';
+      return '<tr>' +
+        '<td style="padding:9px 16px;border-bottom:1px solid var(--border-subtle);white-space:nowrap;">' +
+          '<code style="font-family:var(--font-mono);font-weight:700;font-size:11.5px;color:' + mc + ';">' + method + '</code> ' +
+          '<code style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-primary);">' + path + '</code></td>' +
+        '<td style="padding:9px 16px;border-bottom:1px solid var(--border-subtle);white-space:nowrap;"><span style="padding:2px 9px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.04em;' + (badge[access] || '') + '">' + access + '</span></td>' +
+        '<td style="padding:9px 16px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);">' + purpose + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  setupNav() {
+    const links = {};
+    document.querySelectorAll('#toc a').forEach(function (a) {
+      links[a.getAttribute('href').slice(1)] = a;
+    });
+    const setActive = function (id) {
+      Object.keys(links).forEach(function (k) {
+        const a = links[k];
+        if (k === id) {
+          a.style.background = 'var(--doc-accent-soft)';
+          a.style.color = 'var(--doc-accent-strong)';
+          a.style.fontWeight = '700';
+        } else {
+          a.style.background = 'transparent';
+          a.style.color = 'var(--text-secondary)';
+          a.style.fontWeight = '500';
+        }
+      });
+    };
+    const sections = Array.prototype.slice.call(document.querySelectorAll('.doc-section'));
+    const scroller = document.querySelector('.doc-main');
+    if (!scroller) return;
+    const obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) setActive(e.target.id);
+      });
+    }, { root: scroller, rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function (s) { obs.observe(s); });
+    setActive('overview');
+  }
+
+  renderMermaid() {
+    const self = this;
+    let tries = 0;
+    const run = function () {
+      if (!window.mermaid) {
+        if (tries++ < 60) return setTimeout(run, 100);
+        return;
+      }
+      try {
+        window.mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          securityLevel: 'loose',
+          fontFamily: 'Plus Jakarta Sans, system-ui, sans-serif',
+          themeVariables: {
+            primaryColor: '#ECFBF1',
+            primaryBorderColor: '#1F9D57',
+            primaryTextColor: '#1A1714',
+            lineColor: '#ABA194',
+            secondaryColor: '#F2EFEA',
+            tertiaryColor: '#FAF8F5',
+            fontSize: '13px',
+          },
+        });
+      } catch (e) {}
+      const render = function (id, src) {
+        const host = document.getElementById(id);
+        if (!host) return;
+        window.mermaid.render(id + '-svg', src).then(function (res) {
+          host.innerHTML = res.svg;
+        }).catch(function (err) {
+          host.innerHTML = '<div style="color:var(--error);font-size:13px;">Diagram failed to render.</div>';
+        });
+      };
+      render('diagram-arch', self.archSrc());
+      render('diagram-erd', self.erdSrc());
+    };
+    run();
+  }
+}
+</script>
+</body>
+</html>

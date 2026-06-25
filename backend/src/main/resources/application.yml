@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: studysync-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/studysync}
+    username: ${DB_USER:studysync}
+    password: ${DB_PASS:studysync}
+  jpa:
+    hibernate:
+      ddl-auto: validate          # schema is owned by Flyway, never Hibernate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 26MB
+
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: never        # error detail flows through our ApiError envelope only
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-only-change-me-to-a-long-random-256-bit-secret-value!!}
+    access-ttl: ${JWT_ACCESS_TTL:PT15M}     # 15 minutes (ISO-8601 duration)
+    refresh-ttl: ${JWT_REFRESH_TTL:P7D}      # 7 days
+    issuer: studysync
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    auth-capacity: 10             # requests
+    auth-refill-minutes: 1        # ...per minute, per client IP
+  upload:
+    allowed-content-types:
+      - application/pdf
+      - application/msword
+      - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      - application/vnd.ms-powerpoint
+      - application/vnd.openxmlformats-officedocument.presentationml.presentation
+    max-size-bytes: 26214400      # 25 MB
+
+storage:
+  provider: ${STORAGE_PROVIDER:local}        # local | s3 | cloudinary
+  local:
+    dir: ${STORAGE_DIR:./var/uploads}
+  signed-url-ttl: PT10M
+  s3:
+    bucket: ${S3_BUCKET:}
+    region: ${S3_REGION:}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+
+logging:
+  level:
+    org.springframework.security: INFO

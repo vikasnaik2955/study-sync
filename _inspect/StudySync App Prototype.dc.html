@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/styles.css">
+  <script src="https://unpkg.com/lucide@0.471.0/dist/umd/lucide.min.js"></script>
+  <script src="_ds/plenty-design-system-a440a4ec-5d76-46b2-a2a6-1072130c1411/_ds_bundle.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--surface-page); font-family: var(--font-sans); color: var(--text-primary); }
+    .ss-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+    .ss-scroll::-webkit-scrollbar-thumb { background: var(--neutral-300); border-radius: 999px; border: 2px solid var(--surface-page); }
+    .ss-scroll::-webkit-scrollbar-track { background: transparent; }
+    @keyframes ssFade { from { transform: translateY(7px); } to { transform: none; } }
+    @keyframes ssToast { from { opacity: 0.4; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    .ss-screen { animation: ssFade 0.24s cubic-bezier(0.2,0,0,1); }
+    .ss-navitem:hover { background: var(--neutral-100) !important; }
+    .ss-navitem-active:hover { background: var(--brand-soft) !important; }
+    .ss-row:hover { background: var(--neutral-50); }
+  </style>
+</helmet>
+
+<div style="height: 100vh; width: 100%; overflow: hidden; display: flex; font-family: var(--font-sans);">
+
+  <!-- ================= AUTH (pre-login) ================= -->
+  <sc-if value="{{ showAuth }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; width: 100%; height: 100%;">
+      <!-- Brand panel -->
+      <div style="flex: 1 1 46%; background: linear-gradient(150deg, var(--green-500), var(--green-700)); color: #fff; padding: 56px 60px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 44px; height: 44px; border-radius: 13px; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center;">
+            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="graduation-cap" size="24" color="#fff" hint-size="24px,24px"></x-import>
+          </div>
+          <div style="font-size: 22px; font-weight: 800; letter-spacing: -0.02em;">StudySync</div>
+        </div>
+        <div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 16px;">Learn · Share · Collaborate · Grow</div>
+          <h1 style="font-size: 44px; line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; margin: 0 0 20px; max-width: 440px;">One place for every student to study together.</h1>
+          <p style="font-size: 17px; line-height: 1.55; opacity: 0.86; margin: 0; max-width: 420px;">Share notes, join subject groups, ask questions, chat in real time, and collaborate in study rooms — all in one calm, organised home.</p>
+        </div>
+        <div style="display: flex; gap: 26px;">
+          <div><div style="font-size: 26px; font-weight: 800;">12k+</div><div style="font-size: 13px; opacity: 0.75;">notes shared</div></div>
+          <div><div style="font-size: 26px; font-weight: 800;">840</div><div style="font-size: 13px; opacity: 0.75;">study groups</div></div>
+          <div><div style="font-size: 26px; font-weight: 800;">3.2k</div><div style="font-size: 13px; opacity: 0.75;">questions solved</div></div>
+        </div>
+        <div style="position: absolute; right: -80px; bottom: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(255,255,255,0.06);"></div>
+      </div>
+
+      <!-- Form panel -->
+      <div class="ss-scroll" style="flex: 1 1 54%; display: flex; align-items: center; justify-content: center; padding: 40px; overflow-y: auto; background: var(--surface-page);">
+        <div style="width: 100%; max-width: 400px;">
+          <!-- LOGIN -->
+          <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+            <div class="ss-screen">
+              <h2 style="font-size: 30px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 6px;">Welcome back</h2>
+              <p style="font-size: 15px; color: var(--text-secondary); margin: 0 0 28px;">Sign in to pick up where you left off.</p>
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Input" label="Email" type="email" placeholder="you@college.edu" default-value="aarav@college.edu" hint-size="100%,72px"></x-import>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Input" label="Password" type="password" placeholder="Enter your password" default-value="password" hint-size="100%,72px"></x-import>
+                <div style="display: flex; justify-content: flex-end; margin-top: -4px;">
+                  <a href="#" style="font-size: 13px; color: var(--text-link); font-weight: 600; text-decoration: none;">Forgot password?</a>
+                </div>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" size="lg" full-width="{{ true }}" onClick="{{ doLogin }}" hint-size="100%,52px">Sign in</x-import>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; margin: 24px 0; color: var(--text-muted); font-size: 13px;">
+                <span style="flex: 1; height: 1px; background: var(--border-subtle);"></span> or <span style="flex: 1; height: 1px; background: var(--border-subtle);"></span>
+              </div>
+              <p style="text-align: center; font-size: 14px; color: var(--text-secondary); margin: 0;">New to StudySync? <a href="#" onclick="return false" style="color: var(--text-link); font-weight: 700; text-decoration: none;" data-go-register>Create an account</a></p>
+            </div>
+          </sc-if>
+          <!-- REGISTER -->
+          <sc-if value="{{ isRegister }}" hint-placeholder-val="{{ false }}">
+            <div class="ss-screen">
+              <h2 style="font-size: 30px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 6px;">Create your account</h2>
+              <p style="font-size: 15px; color: var(--text-secondary); margin: 0 0 28px;">Join your classmates in minutes — it's free.</p>
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Input" label="Full name" placeholder="Aarav Sharma" hint-size="100%,72px"></x-import>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Input" label="Email" type="email" placeholder="you@college.edu" hint-size="100%,72px"></x-import>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Input" label="Password" type="password" placeholder="Create a password" hint="At least 8 characters." hint-size="100%,86px"></x-import>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" size="lg" full-width="{{ true }}" onClick="{{ doRegister }}" hint-size="100%,52px">Create account</x-import>
+              </div>
+              <p style="text-align: center; font-size: 14px; color: var(--text-secondary); margin: 24px 0 0;">Already have an account? <a href="#" onclick="return false" style="color: var(--text-link); font-weight: 700; text-decoration: none;" data-go-login>Sign in</a></p>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ================= APP SHELL ================= -->
+  <sc-if value="{{ showApp }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; width: 100%; height: 100%;">
+      <!-- Sidebar -->
+      <aside style="width: 248px; flex: 0 0 248px; background: var(--surface-card); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 20px 14px;">
+        <div style="display: flex; align-items: center; gap: 11px; padding: 6px 10px 22px;">
+          <div style="width: 38px; height: 38px; border-radius: 11px; background: var(--brand); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-brand);">
+            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="graduation-cap" size="21" color="#fff" hint-size="21px,21px"></x-import>
+          </div>
+          <div style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em;">StudySync</div>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 3px;">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="8">
+            <button class="{{ item.cls }}" onClick="{{ item.onClick }}" style="{{ item.style }}">
+              <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="{{ item.icon }}" size="19" hint-size="19px,19px"></x-import>
+              <span style="flex: 1; text-align: left;">{{ item.label }}</span>
+              <sc-if value="{{ item.badge }}" hint-placeholder-val="{{ false }}"><span style="background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; border-radius: 999px; min-width: 18px; height: 18px; padding: 0 5px; display: inline-flex; align-items: center; justify-content: center;">{{ item.badge }}</span></sc-if>
+            </button>
+          </sc-for>
+        </nav>
+        <div style="margin-top: auto; padding: 14px 12px; background: var(--brand-soft); border-radius: var(--radius-md);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="flame" size="18" color="var(--brand-strong)" hint-size="18px,18px"></x-import>
+            <span style="font-weight: 700; font-size: 14px; color: var(--brand-strong);">7-day streak</span>
+          </div>
+          <div style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.45;">Study 25 more minutes today to keep it alive.</div>
+        </div>
+      </aside>
+
+      <!-- Main column -->
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; height: 100%;">
+        <!-- Topbar -->
+        <header style="height: 64px; flex: 0 0 64px; border-bottom: 1px solid var(--border-subtle); background: var(--surface-card); display: flex; align-items: center; gap: 16px; padding: 0 26px;">
+          <div style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; flex: 0 0 auto;">{{ pageTitle }}</div>
+          <div style="flex: 1; max-width: 420px; margin-left: 12px;">
+            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Input" placeholder="Search notes, questions, groups…" left-icon="{{ searchIcon }}" hint-size="100%,44px"></x-import>
+          </div>
+          <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.IconButton" variant="ghost" aria-label="Notifications" round="{{ true }}" hint-size="44px,44px"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="bell" size="20" hint-size="20px,20px"></x-import></x-import>
+            <div style="position: relative;">
+              <button onClick="{{ toggleUserMenu }}" style="display: flex; align-items: center; gap: 9px; background: none; border: 1px solid var(--border-subtle); cursor: pointer; padding: 4px 10px 4px 6px; border-radius: 999px;">
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ userName }}" size="sm" accent="{{ userAccent }}" hint-size="36px,36px"></x-import>
+                <span style="font-weight: 700; font-size: 14px;">{{ userFirstName }}</span>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="chevron-down" size="16" color="var(--text-muted)" hint-size="16px,16px"></x-import>
+              </button>
+              <sc-if value="{{ userMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ closeUserMenu }}" style="position: fixed; inset: 0; z-index: 40;"></div>
+                <div style="position: absolute; right: 0; top: 52px; z-index: 41; width: 256px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); padding: 8px; animation: ssFade 0.16s cubic-bezier(0.2,0,0,1);">
+                  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); padding: 6px 10px 8px;">Switch account · testing</div>
+                  <sc-for list="{{ userList }}" as="u" hint-placeholder-count="2">
+                    <button onClick="{{ u.onSelect }}" class="ss-row" style="width: 100%; display: flex; align-items: center; gap: 11px; padding: 9px 10px; background: none; border: none; cursor: pointer; text-align: left; border-radius: 10px;">
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ u.name }}" size="sm" accent="{{ u.accent }}" hint-size="36px,36px"></x-import>
+                      <div style="flex: 1; min-width: 0;">
+                        <div style="font-weight: 700; font-size: 14px;">{{ u.name }}</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">{{ u.sub }}</div>
+                      </div>
+                      <sc-if value="{{ u.active }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="check" size="18" color="var(--brand-strong)" hint-size="18px,18px"></x-import></sc-if>
+                    </button>
+                  </sc-for>
+                  <div style="height: 1px; background: var(--border-subtle); margin: 6px 4px;"></div>
+                  <button onClick="{{ goProfile }}" class="ss-row" style="width: 100%; display: flex; align-items: center; gap: 11px; padding: 9px 10px; background: none; border: none; cursor: pointer; text-align: left; border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--text-secondary);">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="user" size="18" color="var(--text-muted)" hint-size="18px,18px"></x-import> View profile
+                  </button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <main class="ss-scroll" style="flex: 1 1 auto; overflow-y: auto; padding: 28px 32px 60px; background: var(--surface-page);">
+          <div style="max-width: 1120px; margin: 0 auto;">
+
+            <!-- ===== DASHBOARD ===== -->
+            <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+              <div class="ss-screen">
+                <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px;">
+                  <div>
+                    <h1 style="font-size: 28px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 5px;">{{ greeting }}</h1>
+                    <p style="font-size: 15px; color: var(--text-secondary); margin: 0;">You have 2 sessions today and 3 new answers to your questions.</p>
+                  </div>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Tabs" items="{{ dashTabs }}" active="{{ dashLayout }}" onChange="{{ setDash }}" variant="segmented" hint-size="260px,40px"></x-import>
+                </div>
+
+                <!-- Stat row -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px;">
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="{{ statNotes }}" label="Notes shared" accent="brand" trend="+6 this week" icon="{{ statIconNotes }}" hint-size="100%,96px"></x-import>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="{{ statGroups }}" label="Study groups" accent="food" icon="{{ statIconGroups }}" hint-size="100%,96px"></x-import>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="{{ statRep }}" label="Reputation" accent="reward" trend="+24" icon="{{ statIconRep }}" hint-size="100%,96px"></x-import>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="18h" label="Studied this week" accent="clothes" icon="{{ statIconTime }}" hint-size="100%,96px"></x-import>
+                </div>
+
+                <!-- Cards / Compact layouts -->
+                <div style="{{ dashGridStyle }}">
+                  <!-- Continue / recent notes -->
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,260px">
+                    <div style="padding: 18px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+                      <span style="font-weight: 700; font-size: 16px;">Continue studying</span>
+                      <a href="#" onclick="return false" data-go="notes" style="font-size: 13px; color: var(--text-link); font-weight: 700; text-decoration: none;">All notes →</a>
+                    </div>
+                    <div>
+                      <sc-for list="{{ recentNotes }}" as="n" hint-placeholder-count="3">
+                        <button class="ss-row" onClick="{{ n.onClick }}" style="width: 100%; display: flex; align-items: center; gap: 13px; padding: 13px 20px; background: none; border: none; border-bottom: 1px solid var(--border-subtle); cursor: pointer; text-align: left;">
+                          <div style="width: 38px; height: 38px; border-radius: 10px; background: var(--brand-soft); display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="{{ n.icon }}" size="19" color="var(--brand-strong)" hint-size="19px,19px"></x-import>
+                          </div>
+                          <div style="flex: 1; min-width: 0;">
+                            <div style="font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ n.title }}</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted);">{{ n.meta }}</div>
+                          </div>
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="chevron-right" size="18" color="var(--text-muted)" hint-size="18px,18px"></x-import>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </x-import>
+
+                  <!-- Today's schedule -->
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,260px">
+                    <div style="padding: 18px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+                      <span style="font-weight: 700; font-size: 16px;">Today's plan</span>
+                      <a href="#" onclick="return false" data-go="timetable" style="font-size: 13px; color: var(--text-link); font-weight: 700; text-decoration: none;">Timetable →</a>
+                    </div>
+                    <div style="padding: 6px 20px 14px;">
+                      <sc-for list="{{ todayPlan }}" as="p" hint-placeholder-count="3">
+                        <div style="display: flex; gap: 13px; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);">
+                          <div style="font-size: 13px; font-weight: 700; color: var(--text-secondary); width: 62px; flex: 0 0 auto; font-variant-numeric: tabular-nums;">{{ p.time }}</div>
+                          <div style="width: 3px; border-radius: 2px; background: {{ p.color }}; flex: 0 0 auto;"></div>
+                          <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 14px;">{{ p.title }}</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted);">{{ p.sub }}</div>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </x-import>
+
+                  <!-- Active rooms -->
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,220px">
+                    <div style="padding: 18px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+                      <span style="font-weight: 700; font-size: 16px;">Live study rooms</span>
+                      <a href="#" onclick="return false" data-go="rooms" style="font-size: 13px; color: var(--text-link); font-weight: 700; text-decoration: none;">Join →</a>
+                    </div>
+                    <div style="padding: 14px 20px; display: flex; flex-direction: column; gap: 12px;">
+                      <sc-for list="{{ liveRooms }}" as="r" hint-placeholder-count="2">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <span style="width: 9px; height: 9px; border-radius: 999px; background: var(--success); box-shadow: 0 0 0 3px var(--success-soft); flex: 0 0 auto;"></span>
+                          <div style="flex: 1; min-width: 0;">
+                            <div style="font-weight: 600; font-size: 14px;">{{ r.name }}</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted);">{{ r.meta }}</div>
+                          </div>
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="secondary" size="sm" onClick="{{ r.onClick }}" hint-size="64px,34px">Join</x-import>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </x-import>
+
+                  <!-- Reputation / progress -->
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="20" hint-size="100%,220px">
+                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 14px;">Weekly study goal</div>
+                    <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px;">
+                      <span style="font-size: 30px; font-weight: 800; letter-spacing: -0.02em;">18h</span>
+                      <span style="font-size: 14px; color: var(--text-muted);">/ 25h goal</span>
+                    </div>
+                    <div style="height: 10px; border-radius: 999px; background: var(--neutral-100); overflow: hidden; margin-bottom: 16px;">
+                      <div style="width: 72%; height: 100%; background: linear-gradient(90deg, var(--brand), var(--green-400)); border-radius: 999px;"></div>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatusBadge" tone="success" hint-size="auto,26px">On track</x-import>
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatusBadge" tone="info" hint-size="auto,26px">3 days left</x-import>
+                    </div>
+                  </x-import>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== NOTES FEED ===== -->
+            <sc-if value="{{ isNotes }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px;">
+                  <div>
+                    <h1 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 4px;">Notes library</h1>
+                    <p style="font-size: 14.5px; color: var(--text-secondary); margin: 0;">{{ notesCount }} notes across {{ subjectCount }} subjects — shared by your peers.</p>
+                  </div>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" onClick="{{ openUpload }}" left-icon="{{ iconUpload }}" hint-size="150px,44px">Upload notes</x-import>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+                  <sc-for list="{{ subjectChips }}" as="c" hint-placeholder-count="6">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Chip" selected="{{ c.selected }}" onClick="{{ c.onClick }}" hint-size="auto,34px">{{ c.label }}</x-import>
+                  </sc-for>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                  <sc-for list="{{ notesFiltered }}" as="n" hint-placeholder-count="6">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" interactive="{{ true }}" padding="0" onClick="{{ n.onClick }}" hint-size="100%,196px">
+                      <div style="padding: 18px 18px 0;">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+                          <div style="width: 44px; height: 44px; border-radius: 12px; background: {{ n.tintBg }}; display: flex; align-items: center; justify-content: center;">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="{{ n.icon }}" size="22" color="{{ n.tintFg }}" hint-size="22px,22px"></x-import>
+                          </div>
+                          <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--text-muted); background: var(--surface-sunken); padding: 4px 9px; border-radius: 999px;">{{ n.type }}</span>
+                        </div>
+                        <div style="font-weight: 700; font-size: 15.5px; line-height: 1.32; margin-bottom: 8px; min-height: 41px;">{{ n.title }}</div>
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatusBadge" tone="{{ n.tone }}" dot="{{ true }}" size="sm" hint-size="auto,24px">{{ n.subject }}</x-import>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; margin-top: 14px; border-top: 1px solid var(--border-subtle);">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ n.uploader }}" size="xs" accent="neutral" hint-size="26px,26px"></x-import>
+                        <span style="font-size: 12.5px; color: var(--text-secondary); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ n.uploader }}</span>
+                        <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; color: var(--text-muted); font-weight: 600;">
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="download" size="14" hint-size="14px,14px"></x-import>{{ n.downloads }}
+                        </span>
+                      </div>
+                    </x-import>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== NOTE DETAIL ===== -->
+            <sc-if value="{{ isNoteDetail }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen">
+                <button onClick="{{ backToNotes }}" style="display: inline-flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; color: var(--text-secondary); font-weight: 600; font-size: 14px; font-family: var(--font-sans); margin-bottom: 18px; padding: 0;">
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="arrow-left" size="18" hint-size="18px,18px"></x-import> Back to notes
+                </button>
+                <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; align-items: start;">
+                  <div>
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,420px">
+                      <div style="height: 200px; background: linear-gradient(150deg, var(--brand-soft), var(--neutral-100)); display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+                        <div style="text-align: center; color: var(--text-muted);">
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="{{ activeNote.icon }}" size="48" color="var(--brand-strong)" hint-size="48px,48px"></x-import>
+                          <div style="font-size: 13px; font-weight: 600; margin-top: 8px;">{{ activeNote.type }} · {{ activeNote.pages }} pages · {{ activeNote.size }}</div>
+                        </div>
+                      </div>
+                      <div style="padding: 22px;">
+                        <h1 style="font-size: 23px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.25; margin: 0 0 12px;">{{ activeNote.title }}</h1>
+                        <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); margin: 0;">Comprehensive, exam-ready notes covering core concepts with worked examples and diagrams. Shared with the {{ activeNote.subject }} community.</p>
+                      </div>
+                    </x-import>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="20" hint-size="100%,auto">
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" full-width="{{ true }}" onClick="{{ downloadNote }}" left-icon="{{ iconDownload }}" hint-size="100%,48px">Download</x-import>
+                      <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="secondary" full-width="{{ true }}" onClick="{{ shareNote }}" hint-size="100%,44px">Share to group</x-import>
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.IconButton" variant="outline" aria-label="Bookmark" hint-size="44px,44px"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="bookmark" size="20" hint-size="20px,20px"></x-import></x-import>
+                      </div>
+                    </x-import>
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="20" hint-size="100%,auto">
+                      <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 16px;">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ activeNote.uploader }}" size="md" accent="brand" hint-size="44px,44px"></x-import>
+                        <div>
+                          <div style="font-weight: 700; font-size: 14.5px;">{{ activeNote.uploader }}</div>
+                          <div style="font-size: 12.5px; color: var(--text-muted);">Uploaded {{ activeNote.date }}</div>
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 9px 0; border-top: 1px solid var(--border-subtle);"><span style="color: var(--text-muted);">Subject</span><span style="font-weight: 600;">{{ activeNote.subject }}</span></div>
+                      <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 9px 0; border-top: 1px solid var(--border-subtle);"><span style="color: var(--text-muted);">Downloads</span><span style="font-weight: 600;">{{ activeNote.downloads }}</span></div>
+                      <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 9px 0; border-top: 1px solid var(--border-subtle);"><span style="color: var(--text-muted);">File</span><span style="font-weight: 600;">{{ activeNote.type }} · {{ activeNote.size }}</span></div>
+                    </x-import>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== STUDY GROUPS ===== -->
+            <sc-if value="{{ isGroups }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px;">
+                  <div>
+                    <h1 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 4px;">Study groups</h1>
+                    <p style="font-size: 14.5px; color: var(--text-secondary); margin: 0;">Find your subject. Learn with people on the same path.</p>
+                  </div>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" onClick="{{ createGroupToast }}" left-icon="{{ iconPlus }}" hint-size="150px,44px">Create group</x-import>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                  <sc-for list="{{ groupCards }}" as="g" hint-placeholder-count="4">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="20" accent-bar="{{ g.accent }}" hint-size="100%,auto">
+                      <div style="display: flex; align-items: flex-start; gap: 14px;">
+                        <div style="width: 48px; height: 48px; border-radius: 13px; background: {{ g.tintBg }}; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="users" size="23" color="{{ g.tintFg }}" hint-size="23px,23px"></x-import>
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                          <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-weight: 700; font-size: 16.5px;">{{ g.name }}</span>
+                            <sc-if value="{{ g.isJoined }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatusBadge" tone="success" size="sm" hint-size="auto,22px">Joined</x-import></sc-if>
+                          </div>
+                          <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">{{ g.subject }} · {{ g.members }} members</div>
+                        </div>
+                      </div>
+                      <p style="font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); margin: 13px 0 16px;">{{ g.desc }}</p>
+                      <div style="display: flex; gap: 10px;">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="{{ g.btnVariant }}" size="sm" onClick="{{ g.onToggle }}" hint-size="auto,36px">{{ g.btnLabel }}</x-import>
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="ghost" size="sm" onClick="{{ g.onOpen }}" hint-size="auto,36px">View group</x-import>
+                      </div>
+                    </x-import>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== GROUP DETAIL ===== -->
+            <sc-if value="{{ isGroupDetail }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen">
+                <button onClick="{{ backToGroups }}" style="display: inline-flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; color: var(--text-secondary); font-weight: 600; font-size: 14px; font-family: var(--font-sans); margin-bottom: 18px; padding: 0;">
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="arrow-left" size="18" hint-size="18px,18px"></x-import> All groups
+                </button>
+                <div style="background: linear-gradient(150deg, var(--green-500), var(--green-700)); border-radius: var(--radius-lg); padding: 26px 28px; color: #fff; margin-bottom: 20px; display: flex; align-items: center; gap: 18px;">
+                  <div style="width: 60px; height: 60px; border-radius: 16px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="users" size="30" color="#fff" hint-size="30px,30px"></x-import>
+                  </div>
+                  <div style="flex: 1;">
+                    <h1 style="font-size: 25px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 4px;">{{ activeGroup.name }}</h1>
+                    <div style="font-size: 14px; opacity: 0.88;">{{ activeGroup.subject }} · {{ activeGroup.members }} members · led by {{ activeGroup.owner }}</div>
+                  </div>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="secondary" onClick="{{ toggleActiveGroup }}" hint-size="auto,44px">{{ activeGroupBtn }}</x-import>
+                </div>
+                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: start;">
+                  <div>
+                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 12px;">Group discussion</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                      <sc-for list="{{ groupPosts }}" as="p" hint-placeholder-count="3">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="16" hint-size="100%,auto">
+                          <div style="display: flex; gap: 12px;">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ p.author }}" size="sm" accent="{{ p.accent }}" hint-size="36px,36px"></x-import>
+                            <div style="flex: 1;">
+                              <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px;">
+                                <span style="font-weight: 700; font-size: 14px;">{{ p.author }}</span>
+                                <span style="font-size: 12px; color: var(--text-muted);">{{ p.time }}</span>
+                              </div>
+                              <div style="font-size: 14px; line-height: 1.5; color: var(--text-secondary);">{{ p.body }}</div>
+                            </div>
+                          </div>
+                        </x-import>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="18" hint-size="100%,auto">
+                      <div style="font-weight: 700; font-size: 15px; margin-bottom: 12px;">Shared resources</div>
+                      <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <sc-for list="{{ groupResources }}" as="r" hint-placeholder-count="3">
+                          <button class="ss-row" onClick="{{ r.onClick }}" style="display: flex; align-items: center; gap: 10px; background: none; border: none; cursor: pointer; text-align: left; padding: 8px; border-radius: 10px; width: 100%;">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="{{ r.icon }}" size="18" color="var(--brand-strong)" hint-size="18px,18px"></x-import>
+                            <span style="font-size: 13.5px; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.title }}</span>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </x-import>
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="18" hint-size="100%,auto">
+                      <div style="font-weight: 700; font-size: 15px; margin-bottom: 12px;">Members</div>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <sc-for list="{{ groupMembers }}" as="m" hint-placeholder-count="5">
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ m.name }}" size="sm" accent="{{ m.accent }}" hint-size="36px,36px"></x-import>
+                        </sc-for>
+                      </div>
+                    </x-import>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== Q&A LIST ===== -->
+            <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px;">
+                  <div>
+                    <h1 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 4px;">Q&amp;A forum</h1>
+                    <p style="font-size: 14.5px; color: var(--text-secondary); margin: 0;">Ask anything academic. Answer to earn reputation.</p>
+                  </div>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" onClick="{{ askToast }}" left-icon="{{ iconPlus }}" hint-size="150px,44px">Ask a question</x-import>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <sc-for list="{{ questionCards }}" as="q" hint-placeholder-count="3">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" interactive="{{ true }}" padding="18" onClick="{{ q.onClick }}" hint-size="100%,auto">
+                      <div style="display: flex; gap: 18px;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 0 0 56px; padding-top: 2px;">
+                          <div style="text-align: center;"><div style="font-size: 19px; font-weight: 800; line-height: 1; color: var(--brand-strong);">{{ q.votes }}</div><div style="font-size: 11px; color: var(--text-muted);">votes</div></div>
+                          <div style="text-align: center;"><div style="font-size: 17px; font-weight: 700; line-height: 1;">{{ q.answers }}</div><div style="font-size: 11px; color: var(--text-muted);">answers</div></div>
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                          <div style="font-weight: 700; font-size: 16.5px; line-height: 1.32; margin-bottom: 8px;">{{ q.title }}</div>
+                          <p style="font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); margin: 0 0 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ q.body }}</p>
+                          <div style="display: flex; align-items: center; gap: 10px;">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatusBadge" tone="info" size="sm" hint-size="auto,24px">{{ q.subject }}</x-import>
+                            <span style="font-size: 12.5px; color: var(--text-muted);">asked by {{ q.author }} · {{ q.views }} views</span>
+                          </div>
+                        </div>
+                      </div>
+                    </x-import>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== QUESTION DETAIL ===== -->
+            <sc-if value="{{ isQuestionDetail }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen" style="max-width: 820px;">
+                <button onClick="{{ backToQa }}" style="display: inline-flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; color: var(--text-secondary); font-weight: 600; font-size: 14px; font-family: var(--font-sans); margin-bottom: 18px; padding: 0;">
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="arrow-left" size="18" hint-size="18px,18px"></x-import> Back to forum
+                </button>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="24" hint-size="100%,auto">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatusBadge" tone="info" size="sm" hint-size="auto,24px">{{ activeQuestion.subject }}</x-import>
+                    <span style="font-size: 12.5px; color: var(--text-muted);">{{ activeQuestion.views }} views</span>
+                  </div>
+                  <h1 style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.25; margin: 0 0 14px;">{{ activeQuestion.title }}</h1>
+                  <p style="font-size: 15px; line-height: 1.62; color: var(--text-secondary); margin: 0 0 18px;">{{ activeQuestion.body }}</p>
+                  <div style="display: flex; align-items: center; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ activeQuestion.author }}" size="sm" accent="food" hint-size="34px,34px"></x-import>
+                    <span style="font-size: 13.5px; color: var(--text-secondary);">Asked by <strong style="color: var(--text-primary);">{{ activeQuestion.author }}</strong></span>
+                  </div>
+                </x-import>
+
+                <div style="font-weight: 800; font-size: 18px; margin: 26px 0 14px;">{{ answerCount }} answers</div>
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                  <sc-for list="{{ answerCards }}" as="a" hint-placeholder-count="3">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="20" hint-size="100%,auto">
+                      <div style="display: flex; gap: 18px;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 0 0 44px;">
+                          <button onClick="{{ a.onUp }}" aria-label="Upvote" style="width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid {{ a.upBorder }}; background: {{ a.upBg }}; cursor: pointer; display: flex; align-items: center; justify-content: center; color: {{ a.upColor }};">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="chevron-up" size="20" hint-size="20px,20px"></x-import>
+                          </button>
+                          <span style="font-size: 16px; font-weight: 800; color: {{ a.scoreColor }}; font-variant-numeric: tabular-nums;">{{ a.score }}</span>
+                          <button onClick="{{ a.onDown }}" aria-label="Downvote" style="width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid {{ a.downBorder }}; background: {{ a.downBg }}; cursor: pointer; display: flex; align-items: center; justify-content: center; color: {{ a.downColor }};">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="chevron-down" size="20" hint-size="20px,20px"></x-import>
+                          </button>
+                        </div>
+                        <div style="flex: 1;">
+                          <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-primary); margin: 0 0 14px;">{{ a.body }}</p>
+                          <div style="display: flex; align-items: center; gap: 9px;">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ a.author }}" size="xs" accent="brand" hint-size="28px,28px"></x-import>
+                            <span style="font-size: 13px; font-weight: 600;">{{ a.author }}</span>
+                            <sc-if value="{{ a.rep }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatusBadge" tone="warning" size="sm" hint-size="auto,22px">{{ a.rep }}</x-import></sc-if>
+                          </div>
+                        </div>
+                      </div>
+                    </x-import>
+                  </sc-for>
+                </div>
+
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="18" hint-size="100%,auto" style="margin-top:18px;">
+                  <div style="font-weight: 700; font-size: 15px; margin-bottom: 10px;">Your answer</div>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Textarea" placeholder="Share what you know — be clear and kind." rows="3" hint-size="100%,96px"></x-import>
+                  <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" onClick="{{ postAnswerToast }}" hint-size="auto,42px">Post answer</x-import>
+                  </div>
+                </x-import>
+              </div>
+            </sc-if>
+
+            <!-- ===== CHAT ===== -->
+            <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen" style="height: calc(100vh - 64px - 88px);">
+                <div style="display: grid; grid-template-columns: 300px 1fr; gap: 0; height: 100%; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-card);">
+                  <!-- conversation list -->
+                  <div class="ss-scroll" style="border-right: 1px solid var(--border-subtle); overflow-y: auto;">
+                    <div style="padding: 16px 18px; font-weight: 800; font-size: 17px; border-bottom: 1px solid var(--border-subtle);">Messages</div>
+                    <sc-for list="{{ convList }}" as="c" hint-placeholder-count="4">
+                      <button onClick="{{ c.onClick }}" style="width: 100%; display: flex; gap: 12px; padding: 13px 16px; background: {{ c.bg }}; border: none; border-bottom: 1px solid var(--border-subtle); cursor: pointer; text-align: left; align-items: center;">
+                        <div style="position: relative; flex: 0 0 auto;">
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ c.name }}" size="md" accent="{{ c.accent }}" hint-size="44px,44px"></x-import>
+                          <sc-if value="{{ c.online }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; right: 0; bottom: 0; width: 11px; height: 11px; border-radius: 999px; background: var(--success); border: 2px solid var(--surface-card);"></span></sc-if>
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                          <div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-weight: 700; font-size: 14px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ c.name }}</span><span style="font-size: 11.5px; color: var(--text-muted);">{{ c.time }}</span></div>
+                          <div style="font-size: 12.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;">{{ c.last }}</div>
+                        </div>
+                        <sc-if value="{{ c.unread }}" hint-placeholder-val="{{ false }}"><span style="background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; border-radius: 999px; min-width: 18px; height: 18px; padding: 0 5px; display: inline-flex; align-items: center; justify-content: center;">{{ c.unread }}</span></sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <!-- thread -->
+                  <div style="display: flex; flex-direction: column; min-width: 0;">
+                    <div style="padding: 13px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; gap: 12px;">
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ activeConvName }}" size="sm" accent="brand" hint-size="36px,36px"></x-import>
+                      <div style="flex: 1;"><div style="font-weight: 700; font-size: 15px;">{{ activeConvName }}</div><div style="font-size: 12px; color: var(--success); font-weight: 600;">{{ activeConvStatus }}</div></div>
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.IconButton" variant="ghost" aria-label="Call" hint-size="40px,40px"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="phone" size="19" hint-size="19px,19px"></x-import></x-import>
+                    </div>
+                    <div class="ss-scroll" ref="{{ chatScrollRef }}" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; background: var(--surface-page);">
+                      <sc-for list="{{ activeMessages }}" as="m" hint-placeholder-count="3">
+                        <div style="{{ m.rowStyle }}">
+                          <div style="{{ m.bubbleStyle }}">
+                            <sc-if value="{{ m.showName }}" hint-placeholder-val="{{ false }}"><div style="font-size: 12px; font-weight: 700; color: var(--brand-strong); margin-bottom: 3px;">{{ m.from }}</div></sc-if>
+                            <div style="font-size: 14px; line-height: 1.45;">{{ m.text }}</div>
+                            <div style="{{ m.timeStyle }}">{{ m.time }}</div>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="padding: 14px 18px; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; align-items: center;">
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.IconButton" variant="ghost" aria-label="Attach file" hint-size="42px,42px"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="paperclip" size="20" hint-size="20px,20px"></x-import></x-import>
+                      <input ref="{{ chatInputRef }}" onKeyDown="{{ onChatKey }}" placeholder="Write a message…" style="flex: 1; height: 44px; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0 16px; font-size: 14px; font-family: var(--font-sans); outline: none;" />
+                      <x-import component-from-global-scope="PlentyDesignSystem_a440a4.IconButton" variant="brand" aria-label="Send" onClick="{{ sendMsg }}" hint-size="44px,44px"><x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="send" size="19" color="#fff" hint-size="19px,19px"></x-import></x-import>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== STUDY ROOMS ===== -->
+            <sc-if value="{{ isRooms }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px;">
+                  <div>
+                    <h1 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 4px;">Virtual study rooms</h1>
+                    <p style="font-size: 14.5px; color: var(--text-secondary); margin: 0;">Drop into a live room or open your own. Shared notes &amp; discussion included.</p>
+                  </div>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" onClick="{{ openRoomToast }}" left-icon="{{ iconPlus }}" hint-size="150px,44px">Open a room</x-import>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                  <sc-for list="{{ roomCards }}" as="r" hint-placeholder-count="4">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,auto">
+                      <div style="height: 120px; background: {{ r.heroBg }}; border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; display: flex; align-items: center; justify-content: center;">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="{{ r.heroIcon }}" size="34" color="rgba(255,255,255,0.92)" hint-size="34px,34px"></x-import>
+                        <div style="position: absolute; top: 12px; left: 12px;">{{ r.statusBadge }}</div>
+                      </div>
+                      <div style="padding: 16px 18px;">
+                        <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">{{ r.name }}</div>
+                        <div style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">{{ r.subject }} · hosted by {{ r.host }}</div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                          <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-secondary); font-weight: 600;">
+                            <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="users" size="15" hint-size="15px,15px"></x-import>{{ r.participants }} studying
+                          </div>
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="{{ r.btnVariant }}" size="sm" disabled="{{ r.disabled }}" onClick="{{ r.onJoin }}" hint-size="auto,36px">{{ r.btnLabel }}</x-import>
+                        </div>
+                      </div>
+                    </x-import>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- ===== SMART TIMETABLE ===== -->
+            <sc-if value="{{ isTimetable }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px;">
+                  <div>
+                    <h1 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 4px;">Smart study timetable</h1>
+                    <p style="font-size: 14.5px; color: var(--text-secondary); margin: 0;">Your week at a glance — sessions, groups and rooms, balanced automatically.</p>
+                  </div>
+                  <div style="display: flex; gap: 10px;">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="secondary" onClick="{{ autoplanToast }}" left-icon="{{ iconSparkles }}" hint-size="auto,44px">Auto-balance</x-import>
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="primary" onClick="{{ addSessionToast }}" left-icon="{{ iconPlus }}" hint-size="auto,44px">Add session</x-import>
+                  </div>
+                </div>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,auto">
+                  <div style="display: grid; grid-template-columns: 56px repeat(6, 1fr); border-bottom: 1px solid var(--border-subtle);">
+                    <div></div>
+                    <sc-for list="{{ ttDayLabels }}" as="d" hint-placeholder-count="6">
+                      <div style="padding: 14px 8px; text-align: center; border-left: 1px solid var(--border-subtle);">
+                        <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted);">{{ d.dow }}</div>
+                        <div style="font-size: 16px; font-weight: 800; {{ d.todayStyle }}">{{ d.date }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display: grid; grid-template-columns: 56px repeat(6, 1fr); position: relative;">
+                    <!-- hour gutter -->
+                    <div>
+                      <sc-for list="{{ ttHours }}" as="h" hint-placeholder-count="13">
+                        <div style="height: 54px; font-size: 11px; color: var(--text-muted); text-align: right; padding: 2px 8px 0 0; font-variant-numeric: tabular-nums;">{{ h }}</div>
+                      </sc-for>
+                    </div>
+                    <!-- day columns -->
+                    <sc-for list="{{ ttColumns }}" as="col" hint-placeholder-count="6">
+                      <div style="position: relative; border-left: 1px solid var(--border-subtle); background-image: repeating-linear-gradient(var(--neutral-50), var(--neutral-50) 53px, var(--border-subtle) 53px, var(--border-subtle) 54px);">
+                        <sc-for list="{{ col.sessions }}" as="ev" hint-placeholder-count="1">
+                          <div style="{{ ev.style }}">
+                            <div style="font-weight: 700; font-size: 12.5px; line-height: 1.2; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ev.title }}</div>
+                            <div style="font-size: 11px; opacity: 0.85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ev.sub }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-for>
+                  </div>
+                </x-import>
+              </div>
+            </sc-if>
+
+            <!-- ===== PROFILE ===== -->
+            <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+              <div class="ss-screen" style="max-width: 820px;">
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,auto">
+                  <div style="height: 120px; background: linear-gradient(150deg, var(--green-500), var(--green-700)); border-radius: var(--radius-lg) var(--radius-lg) 0 0;"></div>
+                  <div style="padding: 0 26px 24px; margin-top: -42px;">
+                    <div style="display: flex; align-items: flex-end; gap: 18px;">
+                      <div style="border: 4px solid var(--surface-card); border-radius: 999px;">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Avatar" name="{{ profileName }}" size="xl" accent="{{ userAccent }}" hint-size="84px,84px"></x-import>
+                      </div>
+                      <div style="flex: 1; padding-bottom: 6px;">
+                        <h1 style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; margin: 0;">{{ profileName }}</h1>
+                        <div style="font-size: 14px; color: var(--text-muted);">{{ profileEmail }} · {{ profileSub }}</div>
+                      </div>
+                      <div style="display: flex; gap: 10px; padding-bottom: 6px;">
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="secondary" onClick="{{ editProfileToast }}" hint-size="auto,42px">Edit profile</x-import>
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Button" variant="ghost" onClick="{{ doLogout }}" hint-size="auto,42px">Log out</x-import>
+                      </div>
+                    </div>
+                    <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); margin: 16px 0 0; max-width: 560px;">{{ profileBio }}</p>
+                  </div>
+                </x-import>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 18px 0;">
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="{{ statNotes }}" label="Notes shared" accent="brand" icon="{{ statIconNotes }}" hint-size="100%,92px"></x-import>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="{{ statAnswers }}" label="Answers given" accent="clothes" icon="{{ iconAnswers }}" hint-size="100%,92px"></x-import>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="{{ statRep }}" label="Reputation" accent="reward" icon="{{ statIconRep }}" hint-size="100%,92px"></x-import>
+                  <x-import component-from-global-scope="PlentyDesignSystem_a440a4.StatCard" value="{{ statGroups }}" label="Groups" accent="food" icon="{{ statIconGroups }}" hint-size="100%,92px"></x-import>
+                </div>
+                <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Card" padding="0" hint-size="100%,auto">
+                  <div style="padding: 16px 20px 0;">
+                    <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Tabs" items="{{ profileTabs }}" active="{{ profileTab }}" onChange="{{ setProfileTab }}" variant="underline" hint-size="100%,44px"></x-import>
+                  </div>
+                  <div>
+                    <sc-for list="{{ profileItems }}" as="n" hint-placeholder-count="3">
+                      <button class="ss-row" onClick="{{ n.onClick }}" style="width: 100%; display: flex; align-items: center; gap: 13px; padding: 14px 20px; background: none; border: none; border-top: 1px solid var(--border-subtle); cursor: pointer; text-align: left;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: var(--brand-soft); display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+                          <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="{{ n.icon }}" size="18" color="var(--brand-strong)" hint-size="18px,18px"></x-import>
+                        </div>
+                        <div style="flex: 1; min-width: 0;"><div style="font-weight: 600; font-size: 14.5px;">{{ n.title }}</div><div style="font-size: 12.5px; color: var(--text-muted);">{{ n.meta }}</div></div>
+                        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="chevron-right" size="18" color="var(--text-muted)" hint-size="18px,18px"></x-import>
+                      </button>
+                    </sc-for>
+                  </div>
+                </x-import>
+              </div>
+            </sc-if>
+
+            <!-- SCREENS_END -->
+          </div>
+        </main>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- Toast -->
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 100; animation: ssToast 0.22s cubic-bezier(0.2,0,0,1);">
+      <div style="display: flex; align-items: center; gap: 10px; background: var(--surface-inverse); color: #fff; padding: 12px 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); font-size: 14px; font-weight: 600;">
+        <x-import component-from-global-scope="PlentyDesignSystem_a440a4.Icon" name="check-circle-2" size="18" color="var(--green-300)" hint-size="18px,18px"></x-import>
+        {{ toast }}
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;dashboardLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cards&quot;,&quot;compact&quot;,&quot;focus&quot;],&quot;default&quot;:&quot;cards&quot;,&quot;tsType&quot;:&quot;'cards'|'compact'|'focus'&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    // chat messages keyed by user index, then conversation id
+    const seedMsgs = {
+      0: {
+        1: [
+          { from: 'Priya Nair', me: false, text: 'Did you finish the DBMS normalization notes?', time: '4:02 PM' },
+          { from: 'me', me: true, text: 'Almost — uploading them tonight.', time: '4:05 PM' },
+          { from: 'Priya Nair', me: false, text: 'Amazing, thank you! 🙌', time: '4:05 PM' },
+        ],
+        2: [
+          { from: 'OS Study Group', me: false, text: 'Reminder: scheduling quiz at 8 PM in the room.', time: '2:11 PM' },
+          { from: 'Rahul', me: false, text: "I'll share my deadlock notes there.", time: '2:14 PM' },
+        ],
+        3: [
+          { from: 'Kabir Singh', me: false, text: 'Can you review my graph traversal answer?', time: '11:20 AM' },
+        ],
+      },
+      1: {
+        11: [
+          { from: 'Aarav Sharma', me: false, text: 'Hey Priya, could you share the normalization notes?', time: '4:08 PM' },
+          { from: 'me', me: true, text: 'Sure — sending the BCNF worked examples now.', time: '4:12 PM' },
+        ],
+        12: [
+          { from: 'Sara Khan', me: false, text: 'The new SQL sheet is super clear, thank you!', time: '2:58 PM' },
+          { from: 'me', me: true, text: 'Glad it helps — added join examples too.', time: '3:01 PM' },
+        ],
+        13: [
+          { from: 'Sara Khan', me: false, text: 'Thanks for the query optimization help earlier!', time: '1:40 PM' },
+        ],
+        14: [
+          { from: 'Rahul Verma', me: false, text: 'OS quiz at 8 PM, be there!', time: 'Yesterday' },
+        ],
+      },
+    };
+    this.state = {
+      authed: false,
+      screen: 'login',          // login | register
+      nav: 'dashboard',
+      dashLayout: 'cards',      // cards | compact | focus
+      // mutable content (seeded, then grows as the user adds things)
+      notes: this.NOTES(),
+      groups: this.GROUPS(),
+      questions: this.QUESTIONS(),
+      rooms: this.ROOMS(),
+      sessions: this.TIMETABLE(),
+      activeNoteId: 1,
+      activeGroupId: 1,
+      activeQuestionId: 1,
+      activeConv: 1,
+      activeRoomId: 1,
+      joined: { 1: true, 3: true },
+      qVotes: {},               // answerId -> 1 | -1
+      convMsgs: seedMsgs,
+      subjectFilter: 'All',
+      profileTab: 'notes',
+      currentUser: 0,
+      userMenuOpen: false,
+      modal: null,              // uploadNote | createGroup | askQuestion | openRoom | addSession
+      seq: 1000,                // id generator for new items
+      toast: null,
+    };
+    this._toastTimer = null;
+    this.chatInputRef = React.createRef();
+    this.chatScrollRef = React.createRef();
+    // form refs (reused — only one modal is mounted at a time)
+    this.fTitle = React.createRef();
+    this.fSubject = React.createRef();
+    this.fType = React.createRef();
+    this.fDesc = React.createRef();
+    this.fBody = React.createRef();
+    this.fName = React.createRef();
+    this.fDay = React.createRef();
+    this.fStart = React.createRef();
+    this.fDur = React.createRef();
+  }
+
+  // ---------- data ----------
+  SUBJECTS() { return ['Data Structures', 'Operating Systems', 'DBMS', 'Computer Networks', 'Mathematics', 'Machine Learning']; }
+
+  USERS() {
+    return [
+      { name: 'Aarav Sharma', firstName: 'Aarav', email: 'aarav@college.edu', role: 'B.Tech CSE · 3rd year', accent: 'brand',
+        bio: 'Final-year CS student who loves data structures and teaching. Sharing my exam notes so nobody has to struggle alone. Ask me anything about DSA & DBMS.',
+        stats: { notes: 48, answers: 126, rep: 320, groups: 5 } },
+      { name: 'Priya Nair', firstName: 'Priya', email: 'priya@college.edu', role: 'B.Tech IT · 2nd year', accent: 'food',
+        bio: 'Second-year IT student obsessed with databases and clean SQL. I run the DBMS & SQL Lab group and love turning messy notes into something clear.',
+        stats: { notes: 34, answers: 88, rep: 210, groups: 4 } },
+    ];
+  }
+
+  NOTES() {
+    return [
+      { id: 1, title: 'B-Trees & Balanced Search Structures', subject: 'Data Structures', uploader: 'Aarav Sharma', date: 'Jun 22', downloads: 214, type: 'PDF', icon: 'file-text', size: '2.4 MB', pages: 18 },
+      { id: 2, title: 'Deadlocks: Detection & Recovery', subject: 'Operating Systems', uploader: 'Rahul Verma', date: 'Jun 20', downloads: 189, type: 'PDF', icon: 'file-text', size: '1.8 MB', pages: 12 },
+      { id: 3, title: 'Normalization 1NF → BCNF (worked examples)', subject: 'DBMS', uploader: 'Priya Nair', date: 'Jun 19', downloads: 342, type: 'DOCX', icon: 'file-text', size: '900 KB', pages: 9 },
+      { id: 4, title: 'TCP/IP Model — Layer-by-layer', subject: 'Computer Networks', uploader: 'Sara Khan', date: 'Jun 17', downloads: 128, type: 'PPTX', icon: 'monitor-play', size: '5.1 MB', pages: 31 },
+      { id: 5, title: 'Gradient Descent & Backprop intuition', subject: 'Machine Learning', uploader: 'Kabir Singh', date: 'Jun 15', downloads: 276, type: 'PDF', icon: 'file-text', size: '3.0 MB', pages: 22 },
+      { id: 6, title: 'Eigenvalues & Diagonalization cheatsheet', subject: 'Mathematics', uploader: 'Aarav Sharma', date: 'Jun 12', downloads: 98, type: 'PDF', icon: 'file-text', size: '640 KB', pages: 4 },
+    ];
+  }
+
+  GROUPS() {
+    return [
+      { id: 1, name: 'DSA Grinders', subject: 'Data Structures', members: 42, owner: 'Aarav Sharma', desc: 'Daily problem-solving and weekly mock contests. Beginners welcome.' },
+      { id: 2, name: 'OS Internals', subject: 'Operating Systems', members: 28, owner: 'Rahul Verma', desc: 'Deep dives into scheduling, memory, and concurrency.' },
+      { id: 3, name: 'DBMS & SQL Lab', subject: 'DBMS', members: 51, owner: 'Priya Nair', desc: 'Query optimization, normalization, and project help.' },
+      { id: 4, name: 'ML Reading Circle', subject: 'Machine Learning', members: 36, owner: 'Kabir Singh', desc: 'We read one paper a week and discuss implementations.' },
+    ];
+  }
+
+  QUESTIONS() {
+    return [
+      { id: 1, title: 'When is it better to use a B-Tree over a hash index?', subject: 'DBMS', author: 'Sara Khan', votes: 14, answers: 3, views: 212,
+        body: 'My professor mentioned both for database indexing. I understand hashing is O(1) for lookups, but B-Trees keep coming up for range queries. When would you actually pick one over the other in practice?',
+        answerList: [
+          { id: 101, author: 'Priya Nair', rep: 'Top contributor', votes: 22, body: 'Hash indexes only help equality lookups. The moment you need range scans (BETWEEN, ORDER BY, >, <) a B-Tree wins because its leaves are ordered and linked. Most relational DBs default to B-Trees for exactly this reason.' },
+          { id: 102, author: 'Rahul Verma', rep: '', votes: 9, body: "Also consider write patterns — hash indexes can degrade with collisions and rehashing. B-Trees stay balanced with predictable O(log n)." },
+          { id: 103, author: 'Kabir Singh', rep: '', votes: 3, body: 'In short: equality-only + huge table → hash. Anything ordered/range → B-Tree.' },
+        ] },
+      { id: 2, title: 'How do I reason about deadlock without a resource graph?', subject: 'Operating Systems', author: 'Aarav Sharma', votes: 9, answers: 2, views: 140,
+        body: 'Exams sometimes ask whether a deadlock is possible from a description alone. What is the quickest mental checklist?',
+        answerList: [
+          { id: 201, author: 'Rahul Verma', rep: 'Top contributor', votes: 15, body: 'Check the four Coffman conditions: mutual exclusion, hold-and-wait, no preemption, circular wait. If any one is broken, no deadlock. The circular wait is usually the fastest to spot.' },
+          { id: 202, author: 'Sara Khan', rep: '', votes: 4, body: 'Drawing even a rough wait-for graph in the margin helps — a cycle means deadlock.' },
+        ] },
+      { id: 3, title: 'Intuition for why gradient descent needs a learning rate?', subject: 'Machine Learning', author: 'Priya Nair', votes: 18, answers: 4, views: 305,
+        body: 'I get the math but not the feel. Why not just step straight to the minimum?',
+        answerList: [
+          { id: 301, author: 'Kabir Singh', rep: 'Top contributor', votes: 27, body: "The gradient only tells you the direction of steepest ascent locally — not how far the minimum is. The learning rate controls step size: too big and you overshoot/diverge, too small and training crawls." },
+          { id: 302, author: 'Aarav Sharma', rep: '', votes: 6, body: 'Think of walking downhill in fog: you know which way is down but not the distance, so you take measured steps.' },
+        ] },
+    ];
+  }
+
+  CONVERSATIONS() {
+    return [
+      { id: 1, name: 'Priya Nair', type: 'direct', last: 'Amazing, thank you! 🙌', time: '4:05 PM', unread: 0, online: true },
+      { id: 2, name: 'OS Study Group', type: 'group', last: "Rahul: I'll share my deadlock notes…", time: '2:14 PM', unread: 2, online: false, members: 28 },
+      { id: 3, name: 'Kabir Singh', type: 'direct', last: 'Can you review my graph traversal…', time: '11:20 AM', unread: 1, online: false },
+      { id: 4, name: 'DSA Grinders', type: 'group', last: 'Mock contest starts at 9 PM!', time: 'Yesterday', unread: 0, online: false, members: 42 },
+    ];
+  }
+
+  // conversations differ per signed-in user
+  convsFor(idx) {
+    if (idx === 1) {
+      return [
+        { id: 11, name: 'Aarav Sharma', type: 'direct', last: 'Sure — sending the BCNF examples now.', time: '4:12 PM', unread: 0, online: true },
+        { id: 12, name: 'DBMS & SQL Lab', type: 'group', last: 'You: added join examples too.', time: '3:01 PM', unread: 0, online: false, members: 51 },
+        { id: 13, name: 'Sara Khan', type: 'direct', last: 'Thanks for the query optimization help!', time: '1:40 PM', unread: 1, online: false },
+        { id: 14, name: 'OS Study Group', type: 'group', last: 'Rahul: OS quiz at 8 PM', time: 'Yesterday', unread: 0, online: false, members: 28 },
+      ];
+    }
+    return this.CONVERSATIONS();
+  }
+
+  ROOMS() {
+    return [
+      { id: 1, name: 'BCNF crash session', subject: 'DBMS', host: 'Priya Nair', participants: 6, status: 'active' },
+      { id: 2, name: 'Mock interview — graphs', subject: 'Data Structures', host: 'Aarav Sharma', participants: 4, status: 'active' },
+      { id: 3, name: 'Networks doubt-clearing', subject: 'Computer Networks', host: 'Sara Khan', participants: 9, status: 'active' },
+      { id: 4, name: 'ML paper: Attention', subject: 'Machine Learning', host: 'Kabir Singh', participants: 0, status: 'ended' },
+    ];
+  }
+
+  TIMETABLE() {
+    // sessions keyed by day index 0..5 (Mon..Sat)
+    return [
+      { day: 0, start: 9, dur: 1.5, title: 'Data Structures', sub: 'Trees revision', color: 'var(--brand)' },
+      { day: 0, start: 16, dur: 1, title: 'DSA Grinders', sub: 'Group practice', color: 'var(--food)' },
+      { day: 1, start: 11, dur: 1, title: 'DBMS', sub: 'Normalization', color: 'var(--clothes)' },
+      { day: 2, start: 9, dur: 2, title: 'Machine Learning', sub: 'Backprop', color: 'var(--violet-500)' },
+      { day: 2, start: 18, dur: 1, title: 'Study room', sub: 'BCNF session', color: 'var(--brand)' },
+      { day: 3, start: 14, dur: 1.5, title: 'Operating Systems', sub: 'Deadlocks', color: 'var(--food)' },
+      { day: 4, start: 10, dur: 1, title: 'Networks', sub: 'TCP/IP', color: 'var(--clothes)' },
+      { day: 4, start: 16, dur: 1.5, title: 'Mock contest', sub: 'DSA Grinders', color: 'var(--violet-500)' },
+      { day: 5, start: 11, dur: 2, title: 'Mathematics', sub: 'Eigenvalues', color: 'var(--brand)' },
+    ];
+  }
+
+  // ---------- helpers ----------
+  icon(name, opts) {
+    opts = opts || {};
+    const Icon = window.PlentyDesignSystem_a440a4 && window.PlentyDesignSystem_a440a4.Icon;
+    if (!Icon) return null;
+    return React.createElement(Icon, { name: name, size: opts.size || 18, color: opts.color, key: name });
+  }
+
+  showToast(msg) {
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+    this.setState({ toast: msg });
+    this._toastTimer = setTimeout(() => this.setState({ toast: null }), 2200);
+  }
+
+  go(nav) {
+    this.setState({ nav: nav });
+    const main = document.querySelector('main.ss-scroll');
+    if (main) main.scrollTop = 0;
+  }
+
+  componentDidMount() {
+    // delegate clicks for inline anchors using data-go / data-go-register etc.
+    this._click = (e) => {
+      const goEl = e.target.closest('[data-go]');
+      if (goEl) { e.preventDefault(); this.go(goEl.getAttribute('data-go')); return; }
+      if (e.target.closest('[data-go-register]')) { e.preventDefault(); this.setState({ screen: 'register' }); return; }
+      if (e.target.closest('[data-go-login]')) { e.preventDefault(); this.setState({ screen: 'login' }); return; }
+    };
+    document.addEventListener('click', this._click);
+  }
+  componentWillUnmount() { document.removeEventListener('click', this._click); }
+
+  // ---------- render ----------
+  renderVals() {
+    const s = this.state;
+    const nav = s.nav;
+    const titles = { dashboard: 'Dashboard', notes: 'Notes', noteDetail: 'Note', groups: 'Study groups', groupDetail: 'Group', qa: 'Q&A forum', questionDetail: 'Question', chat: 'Messages', rooms: 'Study rooms', timetable: 'Smart timetable', profile: 'Profile' };
+
+    const navDef = [
+      { key: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
+      { key: 'notes', label: 'Notes', icon: 'file-text' },
+      { key: 'groups', label: 'Study groups', icon: 'users' },
+      { key: 'qa', label: 'Q&A forum', icon: 'message-circle-question' },
+      { key: 'chat', label: 'Messages', icon: 'message-square', badge: '3' },
+      { key: 'rooms', label: 'Study rooms', icon: 'video' },
+      { key: 'timetable', label: 'Timetable', icon: 'calendar-days' },
+      { key: 'profile', label: 'Profile', icon: 'user' },
+    ];
+    const navActive = (k) => (nav === k) || (k === 'notes' && nav === 'noteDetail') || (k === 'groups' && nav === 'groupDetail') || (k === 'qa' && nav === 'questionDetail');
+    const navItems = navDef.map((n) => {
+      const active = navActive(n.key);
+      return {
+        key: n.key, label: n.label, icon: n.icon, badge: n.badge || null,
+        cls: active ? 'ss-navitem-active' : 'ss-navitem',
+        onClick: () => this.go(n.key),
+        style: 'display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:11px;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14.5px;font-weight:' + (active ? '700' : '500') + ';color:' + (active ? 'var(--brand-strong)' : 'var(--text-secondary)') + ';background:' + (active ? 'var(--brand-soft)' : 'transparent') + ';width:100%;transition:background 0.14s;',
+      };
+    });
+
+    const recentNotes = this.NOTES().slice(0, 3).map((n) => ({
+      title: n.title, icon: n.icon, meta: n.subject + ' · ' + n.downloads + ' downloads',
+      onClick: () => { this.setState({ activeNoteId: n.id }); this.go('noteDetail'); },
+    }));
+
+    const liveRooms = this.ROOMS().filter((r) => r.status === 'active').slice(0, 2).map((r) => ({
+      name: r.name, meta: r.host + ' · ' + r.participants + ' studying',
+      onClick: () => { this.setState({ activeRoomId: r.id }); this.go('rooms'); this.showToast('Joined "' + r.name + '"'); },
+    }));
+
+    const todayPlan = [
+      { time: '4:00 PM', title: 'DSA Grinders practice', sub: 'Group session · Data Structures', color: 'var(--food)' },
+      { time: '6:00 PM', title: 'BCNF crash session', sub: 'Study room · DBMS', color: 'var(--brand)' },
+      { time: '8:30 PM', title: 'Solo: backprop notes', sub: 'Machine Learning', color: 'var(--violet-500)' },
+    ];
+
+    const dashCards = s.dashLayout === 'cards';
+    const dashGridStyle = dashCards
+      ? 'display:grid;grid-template-columns:1fr 1fr;gap:16px;'
+      : (s.dashLayout === 'compact'
+        ? 'display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;align-items:start;'
+        : 'display:flex;flex-direction:column;gap:16px;max-width:640px;margin:0 auto;');
+
+    const USERS = this.USERS();
+    const cu = USERS[s.currentUser] || USERS[0];
+    const hour = new Date().getHours();
+    const greet = hour < 12 ? 'Good morning' : (hour < 17 ? 'Good afternoon' : 'Good evening');
+    const userList = USERS.map((u, i) => ({
+      name: u.name, sub: u.role, accent: u.accent, active: i === s.currentUser,
+      check: i === s.currentUser ? 'check' : 'dummy',
+      onSelect: () => this.setState({ currentUser: i, userMenuOpen: false, activeConv: this.convsFor(i)[0].id }),
+    }));
+
+    const base = {
+      // current user
+      userName: cu.name, userFirstName: cu.firstName, userAccent: cu.accent,
+      greeting: greet + ', ' + cu.firstName + ' 👋',
+      profileName: cu.name, profileEmail: cu.email, profileSub: cu.role, profileBio: cu.bio,
+      statNotes: String(cu.stats.notes), statAnswers: String(cu.stats.answers), statRep: String(cu.stats.rep), statGroups: String(cu.stats.groups),
+      userMenuOpen: s.userMenuOpen,
+      userList: userList,
+      toggleUserMenu: () => this.setState({ userMenuOpen: !s.userMenuOpen }),
+      closeUserMenu: () => this.setState({ userMenuOpen: false }),
+      // screen flags
+      showAuth: !s.authed,
+      showApp: s.authed,
+      isLogin: s.screen === 'login',
+      isRegister: s.screen === 'register',
+      isDashboard: nav === 'dashboard',
+      isNotes: nav === 'notes',
+      isNoteDetail: nav === 'noteDetail',
+      isGroups: nav === 'groups',
+      isGroupDetail: nav === 'groupDetail',
+      isQa: nav === 'qa',
+      isQuestionDetail: nav === 'questionDetail',
+      isChat: nav === 'chat',
+      isRooms: nav === 'rooms',
+      isTimetable: nav === 'timetable',
+      isProfile: nav === 'profile',
+      pageTitle: titles[nav] || 'StudySync',
+      toast: s.toast,
+      // auth handlers
+      doLogin: () => this.setState({ authed: true, nav: 'dashboard' }),
+      doRegister: () => this.setState({ authed: true, nav: 'dashboard' }),
+      goProfile: () => { this.setState({ userMenuOpen: false }); this.go('profile'); },
+      // nav
+      navItems: navItems,
+      // icons (nodes)
+      searchIcon: this.icon('search', { size: 18, color: 'var(--text-muted)' }),
+      statIconNotes: this.icon('file-text', { size: 20 }),
+      statIconGroups: this.icon('users', { size: 20 }),
+      statIconRep: this.icon('award', { size: 20 }),
+      statIconTime: this.icon('clock', { size: 20 }),
+      // dashboard
+      dashLayout: s.dashLayout,
+      dashTabs: [ { key: 'cards', label: 'Overview' }, { key: 'compact', label: 'Compact' }, { key: 'focus', label: 'Focus' } ],
+      setDash: (k) => this.setState({ dashLayout: k }),
+      dashGridStyle: dashGridStyle,
+      recentNotes: recentNotes,
+      liveRooms: liveRooms,
+      todayPlan: todayPlan,
+    };
+
+    return Object.assign(base, this.screenVals());
+  }
+
+  // subject color mapping
+  subjectMeta(subject) {
+    const m = {
+      'Data Structures': { tone: 'success', bg: 'var(--brand-soft)', fg: 'var(--brand-strong)', accent: 'brand' },
+      'Operating Systems': { tone: 'food', bg: 'var(--food-soft)', fg: 'var(--food)', accent: 'food' },
+      'DBMS': { tone: 'info', bg: 'var(--info-soft)', fg: 'var(--info)', accent: 'var(--info)' },
+      'Computer Networks': { tone: 'clothes', bg: 'var(--clothes-soft)', fg: 'var(--clothes)', accent: 'clothes' },
+      'Mathematics': { tone: 'neutral', bg: 'var(--violet-50)', fg: 'var(--violet-500)', accent: 'var(--violet-500)' },
+      'Machine Learning': { tone: 'warning', bg: 'var(--reward-soft)', fg: 'var(--amber-500)', accent: 'reward' },
+    };
+    return m[subject] || m['Data Structures'];
+  }
+
+  badge(props, text) {
+    const SB = window.PlentyDesignSystem_a440a4 && window.PlentyDesignSystem_a440a4.StatusBadge;
+    if (!SB) return null;
+    return React.createElement(SB, props, text);
+  }
+
+  sendMsg() {
+    const ref = this.chatInputRef.current;
+    if (!ref) return;
+    const text = (ref.value || '').trim();
+    if (!text) return;
+    const id = this.state.activeConv;
+    const now = new Date();
+    const time = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    const u = this.state.currentUser;
+    const map = Object.assign({}, this.state.convMsgs);
+    const inner = Object.assign({}, map[u]);
+    inner[id] = (inner[id] || []).concat([{ from: 'me', me: true, text: text, time: time }]);
+    map[u] = inner;
+    ref.value = '';
+    this.setState({ convMsgs: map }, () => {
+      const sc = this.chatScrollRef.current;
+      if (sc) sc.scrollTop = sc.scrollHeight;
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState && prevState.activeConv !== this.state.activeConv) {
+      const sc = this.chatScrollRef.current;
+      if (sc) sc.scrollTop = sc.scrollHeight;
+    }
+  }
+
+  vote(aid, dir) {
+    const cur = this.state.qVotes[aid] || 0;
+    const next = cur === dir ? 0 : dir;
+    const v = Object.assign({}, this.state.qVotes);
+    v[aid] = next;
+    this.setState({ qVotes: v });
+  }
+
+  // ---------- per-screen render data ----------
+  screenVals() {
+    const s = this.state;
+    const NS = window.PlentyDesignSystem_a440a4 || {};
+
+    // ----- NOTES -----
+    const allNotes = this.NOTES();
+    const chipLabels = ['All'].concat(this.SUBJECTS());
+    const subjectChips = chipLabels.map((label) => ({
+      label: label,
+      selected: s.subjectFilter === label,
+      onClick: () => this.setState({ subjectFilter: label }),
+    }));
+    const filtered = s.subjectFilter === 'All' ? allNotes : allNotes.filter((n) => n.subject === s.subjectFilter);
+    const notesFiltered = filtered.map((n) => {
+      const meta = this.subjectMeta(n.subject);
+      return Object.assign({}, n, {
+        tintBg: meta.bg, tintFg: meta.fg, tone: meta.tone,
+        onClick: () => { this.setState({ activeNoteId: n.id }); this.go('noteDetail'); },
+      });
+    });
+    const activeNote = allNotes.find((n) => n.id === s.activeNoteId) || allNotes[0];
+
+    // ----- GROUPS -----
+    const groups = this.GROUPS();
+    const groupCards = groups.map((g) => {
+      const meta = this.subjectMeta(g.subject);
+      const joined = !!s.joined[g.id];
+      return {
+        name: g.name, subject: g.subject, members: g.members + (joined ? 1 : 0), desc: g.desc,
+        accent: meta.accent, tintBg: meta.bg, tintFg: meta.fg, isJoined: joined,
+        btnVariant: joined ? 'secondary' : 'primary',
+        btnLabel: joined ? 'Leave' : 'Join',
+        onToggle: () => {
+          const j = Object.assign({}, s.joined); j[g.id] = !joined;
+          this.setState({ joined: j });
+          this.showToast(joined ? 'Left "' + g.name + '"' : 'Joined "' + g.name + '"');
+        },
+        onOpen: () => { this.setState({ activeGroupId: g.id }); this.go('groupDetail'); },
+      };
+    });
+    const ag = groups.find((g) => g.id === s.activeGroupId) || groups[0];
+    const agJoined = !!s.joined[ag.id];
+    const activeGroup = { name: ag.name, subject: ag.subject, members: ag.members + (agJoined ? 1 : 0), owner: ag.owner };
+    const groupPosts = [
+      { author: ag.owner, accent: 'brand', time: '2h ago', body: "Welcome everyone! Drop your toughest doubt here and we'll tackle it in tonight's room." },
+      { author: 'Sara Khan', accent: 'food', time: '1h ago', body: 'Can someone explain when to denormalize? Struggling with the trade-offs.' },
+      { author: 'Rahul Verma', accent: 'clothes', time: '46m ago', body: 'Sharing my summary sheet below — covers all the joins with examples.' },
+    ];
+    const groupResources = allNotes.slice(0, 3).map((n) => ({
+      title: n.title, icon: n.icon,
+      onClick: () => { this.setState({ activeNoteId: n.id }); this.go('noteDetail'); },
+    }));
+    const groupMembers = [
+      { name: ag.owner, accent: 'brand' }, { name: 'Sara Khan', accent: 'food' }, { name: 'Rahul Verma', accent: 'clothes' },
+      { name: 'Priya Nair', accent: 'neutral' }, { name: 'Kabir Singh', accent: 'brand' }, { name: 'Mehak Jain', accent: 'food' },
+    ];
+
+    // ----- Q&A -----
+    const questions = this.QUESTIONS();
+    const questionCards = questions.map((q) => ({
+      title: q.title, body: q.body, subject: q.subject, author: q.author, votes: q.votes, answers: q.answers, views: q.views,
+      onClick: () => { this.setState({ activeQuestionId: q.id }); this.go('questionDetail'); },
+    }));
+    const aq = questions.find((q) => q.id === s.activeQuestionId) || questions[0];
+    const sortedAnswers = aq.answerList.slice().sort((a, b) => {
+      const sa = a.votes + (s.qVotes[a.id] || 0); const sb = b.votes + (s.qVotes[b.id] || 0);
+      return sb - sa;
+    });
+    const answerCards = sortedAnswers.map((a) => {
+      const my = s.qVotes[a.id] || 0;
+      return {
+        body: a.body, author: a.author, rep: a.rep || null,
+        score: a.votes + my,
+        scoreColor: my === 1 ? 'var(--brand-strong)' : (my === -1 ? 'var(--error)' : 'var(--text-primary)'),
+        upBg: my === 1 ? 'var(--brand-soft)' : 'transparent',
+        upBorder: my === 1 ? 'var(--brand)' : 'var(--border-subtle)',
+        upColor: my === 1 ? 'var(--brand-strong)' : 'var(--text-muted)',
+        downBg: my === -1 ? 'var(--error-soft)' : 'transparent',
+        downBorder: my === -1 ? 'var(--error)' : 'var(--border-subtle)',
+        downColor: my === -1 ? 'var(--error)' : 'var(--text-muted)',
+        onUp: () => this.vote(a.id, 1),
+        onDown: () => this.vote(a.id, -1),
+      };
+    });
+    const activeQuestion = { title: aq.title, body: aq.body, subject: aq.subject, author: aq.author, views: aq.views };
+
+    // ----- CHAT -----
+    const convs = this.convsFor(s.currentUser);
+    const accents = ['brand', 'food', 'clothes', 'neutral'];
+    const convList = convs.map((c, i) => ({
+      name: c.name, last: c.last, time: c.time, online: c.online, unread: c.unread || null,
+      accent: accents[i % accents.length],
+      bg: c.id === s.activeConv ? 'var(--brand-soft)' : 'transparent',
+      onClick: () => this.setState({ activeConv: c.id }),
+    }));
+    const activeConvObj = convs.find((c) => c.id === s.activeConv) || convs[0];
+    const isGroupConv = activeConvObj.type === 'group';
+    const activeConvId = activeConvObj.id;
+    const activeMessages = (((s.convMsgs[s.currentUser] || {})[activeConvId]) || []).map((m) => ({
+      from: m.from, text: m.text, time: m.time,
+      showName: isGroupConv && !m.me,
+      rowStyle: 'display:flex;justify-content:' + (m.me ? 'flex-end' : 'flex-start') + ';',
+      bubbleStyle: 'max-width:72%;padding:9px 13px;border-radius:' + (m.me ? '14px 14px 4px 14px' : '14px 14px 14px 4px') + ';background:' + (m.me ? 'var(--brand)' : 'var(--surface-card)') + ';color:' + (m.me ? '#fff' : 'var(--text-primary)') + ';' + (m.me ? '' : 'border:1px solid var(--border-subtle);') + 'box-shadow:var(--shadow-xs);',
+      timeStyle: 'font-size:10.5px;margin-top:4px;text-align:right;color:' + (m.me ? 'rgba(255,255,255,0.75)' : 'var(--text-muted)') + ';',
+    }));
+    const activeConvStatus = activeConvObj.online ? 'Active now' : (isGroupConv ? (activeConvObj.members + ' members') : 'Offline');
+
+    // ----- ROOMS -----
+    const rooms = this.ROOMS();
+    const roomHero = {
+      'DBMS': 'linear-gradient(150deg, var(--blue-500), #1E54C9)',
+      'Data Structures': 'linear-gradient(150deg, var(--green-500), var(--green-700))',
+      'Computer Networks': 'linear-gradient(150deg, var(--teal-500), var(--teal-700))',
+      'Machine Learning': 'linear-gradient(150deg, var(--violet-500), #4B3BA8)',
+    };
+    const roomCards = rooms.map((r) => {
+      const active = r.status === 'active';
+      return {
+        name: r.name, subject: r.subject, host: r.host, participants: r.participants,
+        heroBg: roomHero[r.subject] || 'linear-gradient(150deg, var(--green-500), var(--green-700))',
+        heroIcon: 'monitor',
+        statusBadge: active
+          ? this.badge({ tone: 'success', size: 'sm', dot: true }, 'Live')
+          : this.badge({ tone: 'neutral', size: 'sm', dot: false }, 'Ended'),
+        btnVariant: active ? 'primary' : 'secondary',
+        btnLabel: active ? 'Join room' : 'Ended',
+        disabled: !active,
+        onJoin: active ? (() => this.showToast('Joined "' + r.name + '"')) : (() => {}),
+      };
+    });
+
+    // ----- TIMETABLE -----
+    const dows = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dates = ['23', '24', '25', '26', '27', '28'];
+    const todayIdx = 2;
+    const ttDayLabels = dows.map((d, i) => ({
+      dow: d, date: dates[i],
+      todayStyle: i === todayIdx ? 'color:var(--brand-strong);' : '',
+    }));
+    const ttHours = [];
+    for (let h = 8; h <= 20; h++) {
+      const ampm = h < 12 ? 'AM' : 'PM'; const hh = h % 12 === 0 ? 12 : h % 12;
+      ttHours.push(hh + ' ' + ampm);
+    }
+    const tt = this.TIMETABLE();
+    const ttColumns = dows.map((d, di) => ({
+      sessions: tt.filter((e) => e.day === di).map((e) => ({
+        title: e.title, sub: e.sub,
+        style: 'position:absolute;left:5px;right:5px;top:' + Math.round((e.start - 8) * 54 + 2) + 'px;height:' + Math.round(e.dur * 54 - 6) + 'px;background:' + e.color + ';color:#fff;border-radius:8px;padding:7px 9px;overflow:hidden;box-shadow:var(--shadow-xs);',
+      })),
+    }));
+
+    // ----- PROFILE -----
+    const profileTabs = [ { key: 'notes', label: 'Notes' }, { key: 'questions', label: 'Questions' }, { key: 'answers', label: 'Answers' } ];
+    let profileItems;
+    if (s.profileTab === 'questions') {
+      profileItems = questions.map((q) => ({
+        title: q.title, meta: q.subject + ' · ' + q.answers + ' answers · ' + q.votes + ' votes', icon: 'message-circle-question',
+        onClick: () => { this.setState({ activeQuestionId: q.id }); this.go('questionDetail'); },
+      }));
+    } else if (s.profileTab === 'answers') {
+      profileItems = [
+        { title: 'Re: When is it better to use a B-Tree over a hash index?', meta: 'DBMS · 22 votes · accepted', icon: 'check-circle-2' },
+        { title: 'Re: How do I reason about deadlock?', meta: 'Operating Systems · 15 votes', icon: 'check-circle-2' },
+        { title: 'Re: Intuition for the learning rate?', meta: 'Machine Learning · 6 votes', icon: 'check-circle-2' },
+      ].map((x) => Object.assign(x, { onClick: () => this.go('qa') }));
+    } else {
+      profileItems = allNotes.filter((n) => n.uploader === 'Aarav Sharma').map((n) => ({
+        title: n.title, meta: n.subject + ' · ' + n.downloads + ' downloads', icon: n.icon,
+        onClick: () => { this.setState({ activeNoteId: n.id }); this.go('noteDetail'); },
+      }));
+    }
+
+    return {
+      // notes
+      notesCount: allNotes.length, subjectCount: this.SUBJECTS().length,
+      openUpload: () => this.showToast('Upload — pick a PDF, DOCX or PPT'),
+      iconUpload: this.icon('upload', { size: 18, color: '#fff' }),
+      iconDownload: this.icon('download', { size: 18, color: '#fff' }),
+      iconPlus: this.icon('plus', { size: 18, color: '#fff' }),
+      iconSparkles: this.icon('sparkles', { size: 18 }),
+      iconAnswers: this.icon('message-circle', { size: 20 }),
+      subjectChips: subjectChips, notesFiltered: notesFiltered, activeNote: activeNote,
+      backToNotes: () => this.go('notes'),
+      downloadNote: () => this.showToast('Downloading "' + activeNote.title + '"'),
+      shareNote: () => this.showToast('Shared to your group'),
+      // groups
+      createGroupToast: () => this.showToast('New group — name it and pick a subject'),
+      groupCards: groupCards, activeGroup: activeGroup,
+      activeGroupBtn: agJoined ? 'Leave group' : 'Join group',
+      toggleActiveGroup: () => {
+        const j = Object.assign({}, s.joined); j[ag.id] = !agJoined;
+        this.setState({ joined: j });
+        this.showToast(agJoined ? 'Left "' + ag.name + '"' : 'Joined "' + ag.name + '"');
+      },
+      backToGroups: () => this.go('groups'),
+      groupPosts: groupPosts, groupResources: groupResources, groupMembers: groupMembers,
+      // qa
+      askToast: () => this.showToast('Ask — add a title, body and subject'),
+      questionCards: questionCards, activeQuestion: activeQuestion,
+      answerCount: aq.answerList.length, answerCards: answerCards,
+      backToQa: () => this.go('qa'),
+      postAnswerToast: () => this.showToast('Answer posted — thanks for helping!'),
+      // chat
+      convList: convList, activeConvName: activeConvObj.name, activeConvStatus: activeConvStatus,
+      activeMessages: activeMessages, chatScrollRef: this.chatScrollRef, chatInputRef: this.chatInputRef,
+      onChatKey: (e) => { if (e.key === 'Enter') { e.preventDefault(); this.sendMsg(); } },
+      sendMsg: () => this.sendMsg(),
+      // rooms
+      openRoomToast: () => this.showToast('Opening a room — you are the host'),
+      roomCards: roomCards,
+      // timetable
+      autoplanToast: () => this.showToast('Re-balanced your week around your goals'),
+      addSessionToast: () => this.showToast('Add a study session to your week'),
+      ttDayLabels: ttDayLabels, ttHours: ttHours, ttColumns: ttColumns,
+      // profile
+      editProfileToast: () => this.showToast('Edit your name, avatar and bio'),
+      doLogout: () => this.setState({ authed: false, screen: 'login', nav: 'dashboard' }),
+      profileTabs: profileTabs, profileTab: s.profileTab,
+      setProfileTab: (k) => this.setState({ profileTab: k }),
+      profileItems: profileItems,
+    };
+  }
+}
+</script>
+</body>
+</html>

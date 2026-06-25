@@ -1,0 +1,22 @@
+# Spins up PostgreSQL for local dev. The backend migrates the schema on boot (Flyway), so this is
+# the only piece of infrastructure you need running before `mvn spring-boot:run`.
+services:
+  db:
+    image: postgres:16
+    container_name: studysync-db
+    environment:
+      POSTGRES_DB: studysync
+      POSTGRES_USER: studysync
+      POSTGRES_PASSWORD: studysync
+    ports:
+      - "5432:5432"
+    volumes:
+      - studysync-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U studysync"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  studysync-pgdata:

@@ -1,0 +1,10 @@
+# Local profile — convenience overrides for `-Dspring-boot.run.profiles=local`.
+# The defaults in application.yml already target localhost; this just turns the
+# security logging up a notch and keeps uploads inside the project tree.
+logging:
+  level:
+    com.studysync: DEBUG
+    org.springframework.security: DEBUG
+storage:
+  local:
+    dir: ./var/uploads

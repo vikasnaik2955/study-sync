@@ -1,0 +1,20 @@
+# Build outputs
+backend/target/
+frontend/dist/
+frontend/node_modules/
+
+# Local storage / runtime
+backend/var/
+var/uploads/
+
+# Env files (use the .env.example templates)
+**/.env
+!**/.env.example
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
