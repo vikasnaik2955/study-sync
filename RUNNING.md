@@ -6,7 +6,7 @@ This guide takes you from a fresh clone to the app running in your browser. It a
 
 There are three pieces, started in this order:
 
-1. **PostgreSQL** (the database)
+1. **MySQL** (the database)
 2. **Backend** — Spring Boot API on `http://localhost:8080`
 3. **Frontend** — React app on `http://localhost:5173`
 
@@ -25,16 +25,17 @@ npm -v
 ```
 
 You do **not** need Maven installed globally — the backend ships a wrapper (`mvnw`). You do need
-a PostgreSQL database; pick **one** of the two options in Step 1.
+a MySQL 8 server; pick **one** of the two options in Step 1.
 
 If `java -version` shows something older than 17, install **JDK 17** (Eclipse Temurin 17 from
 adoptium.net) and reopen the terminal.
 
 ---
 
-## 1. Start PostgreSQL
+## 1. Start MySQL
 
-You need a database called `studysync` with username `studysync` and password `studysync`.
+The backend connects as **root / root** and **creates the `studysync` database for you** on first
+run — so you don't have to create any tables or schema by hand. You only need a MySQL server running.
 
 ### Option A — Docker (simplest, if you have Docker Desktop)
 
@@ -44,7 +45,7 @@ From the project root:
 docker compose up -d
 ```
 
-That's it — it starts Postgres on port 5432 with the right database/user/password. Check it's up:
+That's it — it starts MySQL 8 on port 3306 with root password `root`. Check it's up:
 
 ```powershell
 docker ps
@@ -52,22 +53,24 @@ docker ps
 
 To stop it later: `docker compose down` (add `-v` to also delete the data).
 
-### Option B — No Docker (install PostgreSQL locally)
+### Option B — No Docker (use your local MySQL)
 
-1. Install **PostgreSQL 16** from https://www.postgresql.org/download/windows/ . During setup it
-   asks for a password for the `postgres` superuser — remember it.
-2. Open **SQL Shell (psql)** from the Start menu (press Enter through the prompts, then type the
-   `postgres` password), and run:
+Since you already work with MySQL, this is likely the easiest path:
 
-   ```sql
-   CREATE USER studysync WITH PASSWORD 'studysync';
-   CREATE DATABASE studysync OWNER studysync;
-   ```
+1. Make sure your **MySQL 8** server is running (MySQL installed as a Windows service starts
+   automatically; XAMPP users start it from the XAMPP control panel).
+2. That's all the DB setup you need — the app creates the `studysync` schema itself.
+3. **Match the credentials.** The app defaults to user `root`, password `root`. If your root
+   password is different (or empty), tell the backend when you start it — see the **Step 2.1** note
+   just below. You do *not* need to create a database or user manually.
 
-3. Leave PostgreSQL running (it installs as a Windows service, so it starts automatically).
-
-> Using a different DB name/user/password? That's fine — set the `DB_URL`, `DB_USER`, `DB_PASS`
-> environment variables before starting the backend (see Step 2.1 note).
+> Prefer a dedicated user instead of root? Create one and grant it rights, then pass its
+> credentials via `DB_USER`/`DB_PASS` (Step 2.1):
+> ```sql
+> CREATE USER 'studysync'@'localhost' IDENTIFIED BY 'studysync';
+> GRANT ALL PRIVILEGES ON studysync.* TO 'studysync'@'localhost';
+> CREATE DATABASE IF NOT EXISTS studysync;
+> ```
 
 ---
 
@@ -82,7 +85,7 @@ cd "D:\Project\Android app\Study App\backend"
 
 - macOS/Linux: `./mvnw spring-boot:run`
 - The **first** run downloads Maven + dependencies — this can take a few minutes. Later runs are fast.
-- On startup, Flyway creates all the tables and seeds default subjects automatically.
+- On startup, Hibernate creates all the tables and a seeder inserts default subjects automatically.
 
 You'll know it's ready when you see a line like `Started StudySyncApplication in X seconds`.
 
@@ -91,10 +94,15 @@ You'll know it's ready when you see a line like `Started StudySyncApplication in
 - API docs (try endpoints right here): http://localhost:8080/swagger-ui.html
 - Subjects are seeded, so the app has data to work with immediately.
 
-> **2.1 — Custom database connection.** If you used a non-default DB, start the backend like this
-> instead (PowerShell):
+> **2.1 — Custom database credentials.** If your MySQL root password isn't `root` (or you made a
+> dedicated user), start the backend like this instead (PowerShell). Most people only need to change
+> `DB_PASS`:
 > ```powershell
-> $env:DB_URL="jdbc:postgresql://localhost:5432/yourdb"; $env:DB_USER="youruser"; $env:DB_PASS="yourpass"; .\mvnw.cmd spring-boot:run
+> $env:DB_PASS="your_mysql_password"; .\mvnw.cmd spring-boot:run
+> ```
+> Full override (different user/host/db):
+> ```powershell
+> $env:DB_URL="jdbc:mysql://localhost:3306/studysync?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"; $env:DB_USER="studysync"; $env:DB_PASS="studysync"; .\mvnw.cmd spring-boot:run
 > ```
 
 ### Alternative: run the backend from IntelliJ
@@ -158,7 +166,7 @@ as two different accounts.
 Three terminals:
 
 ```powershell
-# 1. database (Docker) — or just make sure your local Postgres service is running
+# 1. database (Docker) — or just make sure your local MySQL service is running
 docker compose up -d
 
 # 2. backend
@@ -172,24 +180,26 @@ cd "D:\Project\Android app\Study App\frontend"; npm run dev
 
 ## Troubleshooting
 
-**Backend: `Connection refused` / `FATAL: database "studysync" does not exist`**
-Postgres isn't running or isn't set up. Recheck Step 1 — `docker ps` should list the db container,
-or your local Postgres service should be running with the `studysync` database + user created.
+**Backend: `Communications link failure` / `Connection refused` (port 3306)**
+MySQL isn't running. Recheck Step 1 — `docker ps` should list the db container, or your local MySQL
+service / XAMPP MySQL should be started.
 
-**Backend: `password authentication failed for user "studysync"`**
-The DB password doesn't match. Either recreate the user with password `studysync`, or pass your real
-credentials via `DB_USER`/`DB_PASS` (see Step 2.1).
+**Backend: `Access denied for user 'root'@'localhost'`**
+The DB password doesn't match. Pass your real MySQL password via `DB_PASS` (see Step 2.1):
+`$env:DB_PASS="your_mysql_password"; .\mvnw.cmd spring-boot:run`.
+
+**Backend: `Public Key Retrieval is not allowed` or an SSL error**
+The default `DB_URL` already includes `allowPublicKeyRetrieval=true&useSSL=false` for local MySQL 8.
+If you overrode `DB_URL`, keep those parameters.
 
 **Backend: `Port 8080 was already in use`**
 Something else is on 8080. Stop it, or run on another port:
 `$env:SERVER_PORT="8081"; .\mvnw.cmd spring-boot:run` — but then also update the frontend proxy
 target in `frontend/vite.config.js` to `http://localhost:8081`.
 
-**Backend: `Flyway ... validate failed` or a migration error**
-Usually a half-created schema from an earlier failed start. Easiest reset (this **deletes** dev data):
+**Want a clean database (wipe dev data and let it rebuild)?**
 - Docker: `docker compose down -v` then `docker compose up -d`.
-- Local Postgres: in psql, `DROP DATABASE studysync;` then recreate it (Step 1, Option B).
-Then start the backend again.
+- Local MySQL: `DROP DATABASE studysync;` — the backend recreates it on the next start.
 
 **Frontend: `npm install` fails or `vite: command not found`**
 Delete `node_modules` and the lockfile, then reinstall:

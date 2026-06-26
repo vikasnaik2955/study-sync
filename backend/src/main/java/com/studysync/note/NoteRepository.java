@@ -12,8 +12,8 @@ import java.util.UUID;
 public interface NoteRepository extends JpaRepository<Note, UUID> {
 
     /**
-     * Paginated search: both filters are optional. Kept portable (ILIKE-style via lower()/like)
-     * rather than Postgres full-text so the JPQL runs unchanged on any database.
+     * Paginated search: both filters are optional. Kept portable (lower()/like) rather than a
+     * DB-specific full-text index so the JPQL runs unchanged on any database (MySQL here).
      */
     @Query("""
             select n from Note n

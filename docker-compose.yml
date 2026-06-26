@@ -1,22 +1,22 @@
-# Spins up PostgreSQL for local dev. The backend migrates the schema on boot (Flyway), so this is
-# the only piece of infrastructure you need running before `mvn spring-boot:run`.
+# Spins up MySQL for local dev. The backend creates/updates the schema on boot (Hibernate
+# ddl-auto=update) and seeds default subjects, so this is the only infrastructure you need
+# running before `mvnw spring-boot:run`. Prefer a local MySQL install? See RUNNING.md.
 services:
   db:
-    image: postgres:16
+    image: mysql:8.4
     container_name: studysync-db
     environment:
-      POSTGRES_DB: studysync
-      POSTGRES_USER: studysync
-      POSTGRES_PASSWORD: studysync
+      MYSQL_DATABASE: studysync
+      MYSQL_ROOT_PASSWORD: root
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - studysync-pgdata:/var/lib/postgresql/data
+      - studysync-mysqldata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U studysync"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
 volumes:
-  studysync-pgdata:
+  studysync-mysqldata:
