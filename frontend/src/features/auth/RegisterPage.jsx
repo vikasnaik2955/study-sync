@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import {
-  Alert, Avatar, Box, Button, Container, Link, Paper, Stack, TextField, Typography,
-} from '@mui/material';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { Alert, Box, Button, Divider, Link, Stack, Typography } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useRegisterMutation } from './authApi';
+import { AuthHero, Field } from './authUi';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ displayName: '', email: '', password: '' });
@@ -17,44 +15,51 @@ export default function RegisterPage() {
     e.preventDefault();
     try {
       await register(form).unwrap();
-      navigate('/notes', { replace: true });
+      navigate('/dashboard', { replace: true });
     } catch {
       /* error surfaced below */
     }
   };
 
   return (
-    <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <Stack alignItems="center" spacing={1} sx={{ mb: 3 }}>
-        <Avatar variant="rounded" sx={{ bgcolor: 'primary.main', width: 48, height: 48 }}>
-          <MenuBookIcon />
-        </Avatar>
-        <Typography variant="h4">Create your account</Typography>
-        <Typography color="text.secondary">Join StudySync</Typography>
-      </Stack>
-      <Paper variant="outlined" sx={{ p: 3 }}>
-        <Box component="form" onSubmit={onSubmit}>
-          <Stack spacing={2}>
-            {error && (
-              <Alert severity="error">
-                {error?.data?.message || 'Registration failed.'}
-              </Alert>
-            )}
-            <TextField label="Display name" value={form.displayName} required
-              onChange={set('displayName')} autoFocus />
-            <TextField label="Email" type="email" value={form.email} required onChange={set('email')} />
-            <TextField label="Password" type="password" value={form.password} required
-              onChange={set('password')} helperText="At least 8 characters" />
-            <Button type="submit" variant="contained" size="large" disabled={isLoading}>
+    <Box sx={{ minHeight: '100vh', display: 'flex' }}>
+      <AuthHero />
+
+      <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        p: { xs: 3, sm: 6 }, bgcolor: 'background.default' }}>
+        <Box component="form" onSubmit={onSubmit} sx={{ width: '100%', maxWidth: 410 }}>
+          <Typography variant="h4" sx={{ fontWeight: 800 }}>Create your account</Typography>
+          <Typography sx={{ color: 'text.secondary', mt: 1, mb: 4 }}>
+            Start sharing and learning together.
+          </Typography>
+
+          <Stack spacing={2.5}>
+            {error && <Alert severity="error">{error?.data?.message || 'Registration failed.'}</Alert>}
+
+            <Field label="Display name" placeholder="Aarav Sharma" value={form.displayName} required
+              autoFocus onChange={set('displayName')} />
+            <Field label="Email" type="email" placeholder="you@college.edu" value={form.email} required
+              onChange={set('email')} />
+            <Field label="Password" type="password" placeholder="At least 8 characters"
+              value={form.password} required onChange={set('password')} />
+
+            <Button type="submit" variant="contained" size="large" disabled={isLoading}
+              sx={{ py: 1.4, fontSize: 16, borderRadius: 2.5, boxShadow: '0 8px 18px rgba(31,157,87,0.30)' }}>
               {isLoading ? 'Creating…' : 'Create account'}
             </Button>
-            <Typography variant="body2" align="center" color="text.secondary">
+
+            <Divider sx={{ color: 'text.secondary', fontSize: 13 }}>or</Divider>
+
+            <Typography align="center" sx={{ color: 'text.secondary' }}>
               Already have an account?{' '}
-              <Link component={RouterLink} to="/login">Sign in</Link>
+              <Link component={RouterLink} to="/login"
+                sx={{ fontWeight: 800, color: 'primary.dark' }} underline="hover">
+                Sign in
+              </Link>
             </Typography>
           </Stack>
         </Box>
-      </Paper>
-    </Container>
+      </Box>
+    </Box>
   );
 }

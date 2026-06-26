@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  Avatar, AvatarGroup, Box, Button, Card, CardContent, Chip, Divider, IconButton, Paper,
-  Stack, TextField, Typography,
+  Avatar, AvatarGroup, Box, Button, Card, CardContent, Divider, IconButton, Stack, TextField, Typography,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import DownloadIcon from '@mui/icons-material/Download';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -14,6 +14,7 @@ import { selectCurrentUser } from '../auth/authSlice';
 import { useStomp } from '../../app/StompProvider';
 import { Loading, EmptyState, ErrorState } from '../../components/states';
 import { downloadNote } from '../../lib/download';
+import { subjectColor } from '../../lib/subjectColor';
 
 export default function RoomDetailPage() {
   const { id } = useParams();
@@ -26,12 +27,10 @@ export default function RoomDetailPage() {
   const [endRoom] = useEndRoomMutation();
   const { subscribe, publish } = useStomp();
 
-  const [feed, setFeed] = useState([]); // live discussion + join/leave events
+  const [feed, setFeed] = useState([]);
   const [draft, setDraft] = useState('');
   const bottomRef = useRef(null);
 
-  // Live room stream: discussion posts plus participant/end events. Membership changes refetch
-  // the room so the participant list and counts stay accurate.
   useEffect(() => {
     const unsub = subscribe(`/topic/room/${id}`, (event) => {
       if (event.type === 'ROOM_POST') {
@@ -54,6 +53,7 @@ export default function RoomDetailPage() {
   if (error) return <ErrorState error={error} />;
 
   const { room, participants, notes } = data;
+  const color = subjectColor(room.subjectName);
   const isHost = room.hostId === me?.id;
   const ended = room.status === 'ENDED';
 
@@ -65,48 +65,68 @@ export default function RoomDetailPage() {
 
   return (
     <Box>
-      <Paper variant="outlined" sx={{ p: 3, mb: 3 }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-          <Box>
-            <Typography variant="h4">{room.name}</Typography>
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
-              <Chip size="small" label={room.subjectName} color="primary" variant="outlined" />
-              <Chip size="small" color={ended ? 'default' : 'success'} label={ended ? 'Ended' : 'Live'} />
-              <Typography color="text.secondary">hosted by {room.hostName}</Typography>
+      <Card sx={{ mb: 3, overflow: 'hidden' }}>
+        <Box sx={{ height: 96, background: ended
+          ? 'linear-gradient(140deg, #6D5BD0, #4C3FA8)'
+          : `linear-gradient(140deg, ${color}, ${color}AA)` }} />
+        <CardContent>
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between"
+            alignItems={{ sm: 'flex-end' }} spacing={2} sx={{ mt: -1 }}>
+            <Box>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography variant="h5">{room.name}</Typography>
+                <Stack direction="row" alignItems="center" spacing={0.5}
+                  sx={{ px: 1, py: 0.3, borderRadius: 5,
+                    bgcolor: ended ? 'rgba(255,255,255,0.08)' : 'rgba(46,204,113,0.16)',
+                    color: ended ? 'text.secondary' : 'primary.main' }}>
+                  {!ended && <FiberManualRecordIcon sx={{ fontSize: 9 }} />}
+                  <Typography sx={{ fontSize: 11.5, fontWeight: 700 }}>{ended ? 'Ended' : 'Live'}</Typography>
+                </Stack>
+              </Stack>
+              <Typography color="text.secondary" sx={{ mt: 0.25 }}>
+                {room.subjectName} · hosted by {room.hostName}
+              </Typography>
+            </Box>
+            <Stack direction="row" spacing={1}>
+              {!ended && !room.joined && <Button variant="contained" onClick={() => join(id)}>Join</Button>}
+              {!ended && room.joined && !isHost && (
+                <Button variant="outlined" color="error" onClick={() => leave(id)}>Leave</Button>
+              )}
+              {!ended && isHost && (
+                <Button variant="outlined" color="error"
+                  onClick={async () => { await endRoom(id); navigate('/rooms'); }}>End room</Button>
+              )}
             </Stack>
-          </Box>
-          <Stack direction="row" spacing={1}>
-            {!ended && !room.joined && <Button variant="contained" onClick={() => join(id)}>Join</Button>}
-            {!ended && room.joined && !isHost && (
-              <Button variant="outlined" color="error" onClick={() => leave(id)}>Leave</Button>
-            )}
-            {!ended && isHost && (
-              <Button variant="outlined" color="error"
-                onClick={async () => { await endRoom(id); navigate('/rooms'); }}>End room</Button>
-            )}
           </Stack>
-        </Stack>
-      </Paper>
+        </CardContent>
+      </Card>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
         <Stack spacing={2}>
-          <Card variant="outlined">
+          <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>Participants ({participants.length})</Typography>
-              <AvatarGroup max={8} sx={{ justifyContent: 'flex-start' }}>
-                {participants.map((p) => (
-                  <Avatar key={p.userId} src={p.avatarUrl}>{p.displayName?.[0]}</Avatar>
-                ))}
-              </AvatarGroup>
+              {participants.length === 0
+                ? <Typography variant="body2" color="text.secondary">No one here yet.</Typography>
+                : (
+                  <AvatarGroup max={8} sx={{ justifyContent: 'flex-start' }}>
+                    {participants.map((p) => (
+                      <Avatar key={p.userId} src={p.avatarUrl}
+                        sx={{ bgcolor: subjectColor(p.displayName), color: '#fff' }}>
+                        {p.displayName?.[0]}
+                      </Avatar>
+                    ))}
+                  </AvatarGroup>
+                )}
             </CardContent>
           </Card>
-          <Card variant="outlined">
+          <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>Shared notes</Typography>
               {notes.length === 0 && <EmptyState title="No shared notes yet" />}
               {notes.map((n) => (
                 <Box key={n.id}>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ py: 0.5 }}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ py: 0.75 }}>
                     <Typography noWrap>{n.title}</Typography>
                     <IconButton size="small" color="primary"
                       onClick={() => downloadNote(n.id, n.originalFilename, accessToken)}>
@@ -120,8 +140,8 @@ export default function RoomDetailPage() {
           </Card>
         </Stack>
 
-        <Card variant="outlined">
-          <CardContent sx={{ display: 'flex', flexDirection: 'column', height: 420 }}>
+        <Card>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', height: 440 }}>
             <Typography variant="h6" gutterBottom>Room discussion</Typography>
             <Box sx={{ flexGrow: 1, overflowY: 'auto' }}>
               {feed.length === 0 && <EmptyState title="Discussion is quiet" hint="Say something." />}
