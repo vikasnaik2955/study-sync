@@ -1,14 +1,27 @@
 import { useState } from 'react';
 import {
-  Box, Button, Card, CardContent, Chip, IconButton, Paper, Stack, TextField, Typography,
+  Box, Button, Card, CardContent, IconButton, Stack, TextField, Typography,
 } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { useParams } from 'react-router-dom';
 import {
   useGetQuestionQuery, usePostAnswerMutation, useVoteAnswerMutation, useRetractVoteMutation,
 } from './qaApi';
 import { Loading, EmptyState, ErrorState } from '../../components/states';
+import { subjectColor } from '../../lib/subjectColor';
+
+function SubjectChip({ name }) {
+  const color = subjectColor(name);
+  return (
+    <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75, px: 1, py: 0.5,
+      borderRadius: 5, bgcolor: `${color}1F` }}>
+      <FiberManualRecordIcon sx={{ fontSize: 8, color }} />
+      <Typography sx={{ fontSize: 12.5, fontWeight: 600, color }}>{name}</Typography>
+    </Box>
+  );
+}
 
 function AnswerCard({ answer, questionId }) {
   const [vote] = useVoteAnswerMutation();
@@ -21,12 +34,12 @@ function AnswerCard({ answer, questionId }) {
   };
 
   return (
-    <Card variant="outlined">
+    <Card>
       <CardContent sx={{ display: 'flex', gap: 2 }}>
-        <Stack alignItems="center">
+        <Stack alignItems="center" sx={{ flexShrink: 0 }}>
           <IconButton size="small" color={answer.myVote === 1 ? 'primary' : 'default'}
             onClick={() => cast(1)}><ArrowUpwardIcon fontSize="small" /></IconButton>
-          <Typography fontWeight={700}>{answer.netVotes}</Typography>
+          <Typography sx={{ fontWeight: 800 }}>{answer.netVotes}</Typography>
           <IconButton size="small" color={answer.myVote === -1 ? 'error' : 'default'}
             onClick={() => cast(-1)}><ArrowDownwardIcon fontSize="small" /></IconButton>
         </Stack>
@@ -57,37 +70,41 @@ export default function QuestionDetailPage() {
   };
 
   return (
-    <Box>
-      <Paper variant="outlined" sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h4">{question.title}</Typography>
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ my: 1 }}>
-          <Chip size="small" label={question.subjectName} color="primary" variant="outlined" />
-          <Typography variant="caption" color="text.secondary">
-            Asked by {question.authorName} · {question.viewCount} views
-          </Typography>
-        </Stack>
-        <Typography sx={{ whiteSpace: 'pre-wrap', mt: 1 }}>{question.body}</Typography>
-      </Paper>
+    <Box sx={{ maxWidth: 860 }}>
+      <Card sx={{ mb: 3 }}>
+        <CardContent>
+          <Typography variant="h5">{question.title}</Typography>
+          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ my: 1.5 }}>
+            <SubjectChip name={question.subjectName} />
+            <Typography variant="caption" color="text.secondary">
+              asked by {question.authorName} · {question.viewCount} views
+            </Typography>
+          </Stack>
+          <Typography sx={{ whiteSpace: 'pre-wrap' }}>{question.body}</Typography>
+        </CardContent>
+      </Card>
 
       <Typography variant="h6" sx={{ mb: 1.5 }}>
         {answers.length} {answers.length === 1 ? 'answer' : 'answers'}
       </Typography>
 
-      <Stack spacing={1.5} sx={{ mb: 3 }}>
+      <Stack spacing={2} sx={{ mb: 3 }}>
         {answers.length === 0 && <EmptyState title="No answers yet" hint="Share what you know." />}
         {answers.map((a) => <AnswerCard key={a.id} answer={a} questionId={id} />)}
       </Stack>
 
-      <Paper variant="outlined" sx={{ p: 2 }}>
-        <Typography variant="subtitle1" sx={{ mb: 1 }}>Your answer</Typography>
-        <TextField fullWidth multiline minRows={3} value={body}
-          onChange={(e) => setBody(e.target.value)} placeholder="Write your answer…" />
-        <Box sx={{ mt: 1, textAlign: 'right' }}>
-          <Button variant="contained" onClick={submit} disabled={posting || !body.trim()}>
-            {posting ? 'Posting…' : 'Post answer'}
-          </Button>
-        </Box>
-      </Paper>
+      <Card>
+        <CardContent>
+          <Typography variant="subtitle1" sx={{ mb: 1 }}>Your answer</Typography>
+          <TextField fullWidth multiline minRows={3} value={body}
+            onChange={(e) => setBody(e.target.value)} placeholder="Write your answer…" />
+          <Box sx={{ mt: 1.5, textAlign: 'right' }}>
+            <Button variant="contained" onClick={submit} disabled={posting || !body.trim()}>
+              {posting ? 'Posting…' : 'Post answer'}
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 }
