@@ -4,6 +4,8 @@ import AppLayout from './components/AppLayout';
 import { StompProvider } from './app/StompProvider';
 import LoginPage from './features/auth/LoginPage';
 import RegisterPage from './features/auth/RegisterPage';
+import DashboardPage from './features/dashboard/DashboardPage';
+import TimetablePage from './features/timetable/TimetablePage';
 import NotesPage from './features/notes/NotesPage';
 import GroupsPage from './features/groups/GroupsPage';
 import GroupDetailPage from './features/groups/GroupDetailPage';
@@ -31,7 +33,9 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/notes" replace />} />
+        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/timetable" element={<TimetablePage />} />
         <Route path="/notes" element={<NotesPage />} />
         <Route path="/groups" element={<GroupsPage />} />
         <Route path="/groups/:id" element={<GroupDetailPage />} />
@@ -43,7 +47,7 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
 
-      <Route path="*" element={<Navigate to="/notes" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
 }

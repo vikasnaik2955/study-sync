@@ -6,6 +6,11 @@ import react from '@vitejs/plugin-react';
 // is built to static files and points at VITE_API_BASE_URL / VITE_WS_URL directly.
 export default defineConfig({
   plugins: [react()],
+  // sockjs-client references a bare `global`; map it to globalThis for the production build.
+  // (Dev is covered by the inline script in index.html.)
+  define: {
+    global: 'globalThis',
+  },
   server: {
     port: 5173,
     proxy: {

@@ -7,11 +7,8 @@ import { store } from './app/store';
 import theme from './theme';
 import App from './App';
 
-// sockjs-client expects a Node-style `global`; the browser doesn't define it. Shim it before the
-// STOMP/SockJS modules touch it.
-if (typeof window !== 'undefined' && typeof window.global === 'undefined') {
-  window.global = window;
-}
+// Note: the `global` shim sockjs-client needs lives in index.html (a plain script that runs before
+// these module imports evaluate) — putting it here would be too late.
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
