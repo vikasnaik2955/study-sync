@@ -72,7 +72,7 @@ export default function AppLayout() {
   const location = useLocation();
   const [logout] = useLogoutMutation();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { data: conversations } = useListConversationsQuery();
+  const { data: conversations } = useListConversationsQuery(undefined, { pollingInterval: 30000 });
   const badges = { messages: conversations?.length || 0 };
 
   const initials = (user?.displayName || '?')

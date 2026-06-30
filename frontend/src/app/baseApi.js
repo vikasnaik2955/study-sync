@@ -42,6 +42,10 @@ async function baseQueryWithReauth(args, api, extraOptions) {
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
+  // Keep data in sync without a manual reload: refetch active queries when the tab regains focus
+  // or the network reconnects. (setupListeners is wired in store.js.)
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   tagTypes: ['Notes', 'Subjects', 'Groups', 'GroupMembers', 'GroupNotes', 'GroupPosts',
     'Questions', 'Question', 'Conversations', 'Messages', 'Rooms', 'Room', 'Me'],
   endpoints: () => ({}),

@@ -36,6 +36,18 @@ public class UserService {
         return UserResponse.from(loadUser(id));
     }
 
+    /**
+     * Public-facing profile of any user. Strips the email so a logged-in user can't harvest other
+     * members' email addresses via {@code GET /users/{id}} — only the owner's own profile (/me)
+     * includes it.
+     */
+    @Transactional(readOnly = true)
+    public UserResponse getPublicProfile(UUID id) {
+        User u = loadUser(id);
+        return new UserResponse(u.getId(), null, u.getDisplayName(),
+                u.getAvatarUrl(), u.getBio(), u.getRole(), u.getCreatedAt());
+    }
+
     @Transactional
     public UserResponse updateProfile(UUID userId, UpdateProfileRequest req) {
         User user = loadUser(userId);

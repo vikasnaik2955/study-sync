@@ -48,6 +48,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserResponse getById(@PathVariable UUID id) {
-        return userService.getById(id);
+        // Public profile — never leaks another user's email.
+        return userService.getPublicProfile(id);
     }
 }

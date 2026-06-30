@@ -162,7 +162,7 @@ export default function DashboardPage() {
 
   const { data: notesData } = useListNotesQuery({ size: 3 });
   const { data: groupsData } = useListGroupsQuery({ size: 1 });
-  const { data: roomsData } = useListRoomsQuery({ size: 2 });
+  const { data: roomsData } = useListRoomsQuery({ size: 2 }, { pollingInterval: 30000 });
 
   const recentNotes = notesData?.content || [];
   const notesTotal = notesData?.totalElements ?? '—';

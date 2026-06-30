@@ -129,7 +129,8 @@ function ChatPane({ conversation }) {
 
 export default function ChatPage() {
   const location = useLocation();
-  const { data: conversations = [], isLoading } = useListConversationsQuery();
+  const { data: conversations = [], isLoading } = useListConversationsQuery(undefined,
+    { pollingInterval: 20000 });
   const [openConversation] = useOpenConversationMutation();
   const [selectedId, setSelectedId] = useState(null);
 

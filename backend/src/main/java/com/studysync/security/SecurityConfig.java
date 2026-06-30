@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
@@ -58,6 +60,19 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Security response headers. nosniff (X-Content-Type-Options) is on by default;
+                // we add clickjacking, referrer, HSTS (applied only over HTTPS) and a locked-down
+                // Permissions-Policy. No CSP here — the SPA is served separately, this app serves
+                // JSON + Swagger UI, and a strict CSP would break the docs page.
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin())
+                        .referrerPolicy(ref -> ref.policy(
+                                ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true).maxAgeInSeconds(31_536_000))
+                        .addHeaderWriter(new StaticHeadersWriter(
+                                "Permissions-Policy", "geolocation=(), microphone=(), camera=()"))
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/auth/**",

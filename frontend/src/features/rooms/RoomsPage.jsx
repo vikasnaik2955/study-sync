@@ -89,7 +89,7 @@ function CreateRoomDialog({ open, onClose }) {
 export default function RoomsPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
-  const { data, isLoading, error } = useListRoomsQuery({ size: 24 });
+  const { data, isLoading, error } = useListRoomsQuery({ size: 24 }, { pollingInterval: 30000 });
   const rooms = data?.content || [];
 
   return (
